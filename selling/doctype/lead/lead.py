@@ -10,6 +10,8 @@ from webnotes import session, msgprint
 	
 from controllers.selling_controller import SellingController
 
+#sql = webnotes.conn.sql
+
 class DocType(SellingController):
 	def __init__(self, doc, doclist):
 		self.doc = doc
@@ -40,7 +42,43 @@ class DocType(SellingController):
 	def on_update(self):
 		self.check_email_id_is_unique()
 		self.add_calendar_event()
-		
+		self.create_account_head()
+		self.create_contact_details()
+	
+	def create_contact_details(self):
+		details = {}
+		details['first_name'] = self.doc.lead_name
+		details['email_id'] = self.doc.email_id
+		details['mobile_no'] = self.doc.mobile_no
+		details['doc'] ='Lead'
+		details['link']=self.doc.name
+		create_contact(details)
+
+	def create_account_head(self):
+		if self.doc.company :
+			abbr = webnotes.conn.get_value('Company', self.doc.company, 'abbr')
+						
+			if not webnotes.conn.sql("select name from tabAccount where name=%s", (self.doc.name + " - " + abbr)):
+				ac_bean = webnotes.bean({
+					"doctype": "Account",
+					'account_name': self.doc.name,
+					'parent_account': "Accounts Payable - " + abbr,
+					'group_or_ledger':'Ledger',
+					'company': self.doc.company,
+					'account_type': '',
+					'tax_rate': '0',
+					'master_type': 'Lead',
+					'master_name': self.doc.name,
+					"freeze_account": "No"
+				})
+				ac_bean.ignore_permissions = True
+				ac_bean.insert()
+				
+				webnotes.msgprint(_("Created Account Head: ") + ac_bean.doc.name)
+		else : 
+			webnotes.msgprint("Please select Company under which you want to create account head")
+	
+
 	def add_calendar_event(self, opts=None, force=False):
 		super(DocType, self).add_calendar_event({
 			"owner": self.doc.lead_owner,
@@ -122,3 +160,20 @@ def make_opportunity(source_name, target_doclist=None):
 		}}, target_doclist)
 		
 	return [d if isinstance(d, dict) else d.fields for d in doclist]
+
+@webnotes.whitelist()
+def get_lead_owner(doctype, txt, searchfield, start, page_len, filters):
+	return webnotes.conn.sql("select name, employee_name from tabEmployee where designation='PRO Master'")
+
+def create_contact(contact_details):
+	from webnotes.model.doc import Document
+	contact = Document("Contact")
+	contact.first_name = contact_details['first_name'] 
+	contact.email_id = contact_details['email_id']
+	contact.mobile_no = contact_details['mobile_no']
+	if contact_details['doc']=='Customer':
+		contact.customer=contact_details['link']
+	else:
+		contact.referrer_physician=contact_details['link']
+	contact.save()
+	

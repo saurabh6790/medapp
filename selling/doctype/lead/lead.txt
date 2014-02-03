@@ -2,7 +2,7 @@
  {
   "creation": "2013-04-10 11:45:37", 
   "docstatus": 0, 
-  "modified": "2013-11-25 11:38:00", 
+  "modified": "2014-02-02 20:28:46", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -44,9 +44,53 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "referring_physician_details", 
+  "fieldtype": "Button", 
+  "label": "Referring Physician Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col10", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "communication", 
+  "fieldtype": "Button", 
+  "label": "Communication"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col5", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "address_and_contact", 
+  "fieldtype": "Button", 
+  "label": "Address and Contact"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col6", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_fee", 
+  "fieldtype": "Button", 
+  "label": "Referral Fee"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col7", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "lead_details", 
   "fieldtype": "Section Break", 
-  "label": "Lead Details", 
+  "label": "Referring Physician Details", 
   "options": "icon-user"
  }, 
  {
@@ -57,7 +101,7 @@
   "no_copy": 1, 
   "oldfieldname": "naming_series", 
   "oldfieldtype": "Select", 
-  "options": "LEAD\nLEAD/10-11/\nLEAD/MUMBAI/", 
+  "options": "REF\nLEAD\nLEAD/10-11/\nLEAD/MUMBAI/", 
   "reqd": 0
  }, 
  {
@@ -100,24 +144,26 @@
   "fieldtype": "Column Break"
  }, 
  {
-  "default": "Lead", 
+  "default": "Referring Physician", 
   "doctype": "DocField", 
   "fieldname": "status", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "in_filter": 1, 
   "in_list_view": 1, 
   "label": "Status", 
   "no_copy": 1, 
   "oldfieldname": "status", 
   "oldfieldtype": "Select", 
-  "options": "Lead\nOpen\nReplied\nOpportunity\nInterested\nConverted\nDo Not Contact", 
-  "reqd": 1, 
+  "options": "Referring Physician\nLead\nOpen\nReplied\nOpportunity\nInterested\nConverted\nDo Not Contact", 
+  "reqd": 0, 
   "search_index": 1
  }, 
  {
   "doctype": "DocField", 
   "fieldname": "source", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "in_filter": 1, 
   "in_list_view": 1, 
   "label": "Source", 
@@ -140,21 +186,10 @@
   "options": "Customer"
  }, 
  {
-  "depends_on": "eval:doc.source == 'Campaign'", 
-  "description": "Enter campaign name if the source of lead is campaign.", 
-  "doctype": "DocField", 
-  "fieldname": "campaign_name", 
-  "fieldtype": "Link", 
-  "hidden": 0, 
-  "label": "Campaign Name", 
-  "oldfieldname": "campaign_name", 
-  "oldfieldtype": "Link", 
-  "options": "Campaign"
- }, 
- {
   "doctype": "DocField", 
   "fieldname": "communication_history", 
   "fieldtype": "Section Break", 
+  "hidden": 0, 
   "label": "Communication", 
   "options": "icon-comments", 
   "print_hide": 1
@@ -164,6 +199,7 @@
   "doctype": "DocField", 
   "fieldname": "lead_owner", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Lead Owner", 
   "oldfieldname": "lead_owner", 
@@ -182,7 +218,7 @@
   "doctype": "DocField", 
   "fieldname": "contact_by", 
   "fieldtype": "Link", 
-  "hidden": 0, 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Next Contact By", 
   "oldfieldname": "contact_by", 
@@ -198,6 +234,7 @@
   "doctype": "DocField", 
   "fieldname": "contact_date", 
   "fieldtype": "Date", 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Next Contact Date", 
   "no_copy": 1, 
@@ -217,6 +254,7 @@
   "doctype": "DocField", 
   "fieldname": "communication_html", 
   "fieldtype": "HTML", 
+  "hidden": 1, 
   "label": "Communication HTML", 
   "oldfieldname": "follow_up", 
   "oldfieldtype": "Table"
@@ -234,7 +272,7 @@
   "doctype": "DocField", 
   "fieldname": "address_desc", 
   "fieldtype": "HTML", 
-  "hidden": 0, 
+  "hidden": 1, 
   "label": "Address Desc", 
   "options": "<em>Addresses will appear only when you save the lead</em>", 
   "print_hide": 1
@@ -247,6 +285,44 @@
   "label": "Address HTML", 
   "print_hide": 0, 
   "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "address_line_1", 
+  "fieldtype": "Data", 
+  "label": "Address line 1"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "address_line_2", 
+  "fieldtype": "Data", 
+  "label": "Address line 2"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "country", 
+  "fieldtype": "Select", 
+  "label": "Country", 
+  "options": "link:Country"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "state", 
+  "fieldtype": "Link", 
+  "label": "State", 
+  "options": "State"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "city", 
+  "fieldtype": "Data", 
+  "label": "City"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "pin_code", 
+  "fieldtype": "Data", 
+  "label": "Pin Code"
  }, 
  {
   "doctype": "DocField", 
@@ -279,6 +355,18 @@
   "oldfieldtype": "Data"
  }, 
  {
+  "depends_on": "eval:doc.source == 'Campaign'", 
+  "description": "Enter campaign name if the source of lead is campaign.", 
+  "doctype": "DocField", 
+  "fieldname": "campaign_name", 
+  "fieldtype": "Link", 
+  "hidden": 0, 
+  "label": "Campaign Name", 
+  "oldfieldname": "campaign_name", 
+  "oldfieldtype": "Link", 
+  "options": "Campaign"
+ }, 
+ {
   "doctype": "DocField", 
   "fieldname": "website", 
   "fieldtype": "Data", 
@@ -299,8 +387,20 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "company", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Company", 
+  "oldfieldname": "company", 
+  "oldfieldtype": "Link", 
+  "options": "Company", 
+  "reqd": 0
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "more_info", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "More Info", 
   "oldfieldtype": "Section Break", 
   "options": "icon-file-text"
@@ -319,7 +419,7 @@
   "doctype": "DocField", 
   "fieldname": "market_segment", 
   "fieldtype": "Select", 
-  "hidden": 0, 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Market Segment", 
   "oldfieldname": "market_segment", 
@@ -363,16 +463,6 @@
   "fieldtype": "Column Break", 
   "oldfieldtype": "Column Break", 
   "width": "50%"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "company", 
-  "fieldtype": "Link", 
-  "label": "Company", 
-  "oldfieldname": "company", 
-  "oldfieldtype": "Link", 
-  "options": "Company", 
-  "reqd": 0
  }, 
  {
   "doctype": "DocField", 

@@ -2,7 +2,7 @@
  {
   "creation": "2013-01-10 16:34:32", 
   "docstatus": 0, 
-  "modified": "2013-12-12 12:18:19", 
+  "modified": "2014-02-02 16:27:34", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -93,9 +93,11 @@
   "doctype": "DocField", 
   "fieldname": "phone", 
   "fieldtype": "Data", 
+  "hidden": 1, 
   "label": "Phone", 
   "oldfieldname": "contact_no", 
   "oldfieldtype": "Data", 
+  "print_hide": 0, 
   "reqd": 0
  }, 
  {
@@ -163,6 +165,20 @@
   "fieldtype": "Data", 
   "in_list_view": 1, 
   "label": "Supplier Name", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_physician", 
+  "fieldtype": "Link", 
+  "label": "Referrer Physician", 
+  "options": "Lead"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_name", 
+  "fieldtype": "Data", 
+  "label": "Referrer Name", 
   "read_only": 1
  }, 
  {

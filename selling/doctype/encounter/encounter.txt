@@ -1,0 +1,163 @@
+[
+ {
+  "creation": "2014-01-07 12:10:42", 
+  "docstatus": 0, 
+  "modified": "2014-02-01 13:59:43", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "custom": 1, 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "istable": 1, 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Encounter", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "cancel": 1, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Encounter", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Encounter"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "id", 
+  "fieldtype": "Link", 
+  "label": "ID", 
+  "options": "Patient Encounter Entry", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Encounter", 
+  "options": "Modality"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_date", 
+  "fieldtype": "Date", 
+  "in_list_view": 1, 
+  "label": " Encounter Date"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "radiologist_name", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Radiologist Name", 
+  "options": "Employee"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "radiologist_", 
+  "fieldtype": "Data", 
+  "label": "Radiologist"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_name", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Referrer Name", 
+  "options": "Lead"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral", 
+  "fieldtype": "Data", 
+  "label": "Referral"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "problem_description", 
+  "fieldtype": "Data", 
+  "in_list_view": 1, 
+  "label": "Problem Description"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "metal_in", 
+  "fieldtype": "Check", 
+  "label": "Metal In"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "pregnancy", 
+  "fieldtype": "Check", 
+  "label": "Pregnancy"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "pacemaker", 
+  "fieldtype": "Check", 
+  "label": "PaceMaker"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "others", 
+  "fieldtype": "Check", 
+  "label": "Others"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "claustrophobia", 
+  "fieldtype": "Check", 
+  "label": "Claustrophobia"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "procedure_alert", 
+  "fieldtype": "Small Text", 
+  "label": "Procedure Alert"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "is_payment_done", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "label": "Is Payment Done", 
+  "read_only": 1
+ }, 
+ {
+  "default": "False", 
+  "doctype": "DocField", 
+  "fieldname": "is_invoiced", 
+  "fieldtype": "Select", 
+  "label": "Is Invoiced", 
+  "options": "False\nTrue"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

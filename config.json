@@ -6,7 +6,8 @@
   "Accounts": {
    "color": "#3498db", 
    "icon": "icon-money", 
-   "link": "accounts-home", 
+   "link": "accounts-home",
+   "label":"Accounting and Billing",
    "type": "module"
   }, 
   "Activity": {
@@ -15,17 +16,26 @@
    "label": "Activity", 
    "link": "activity", 
    "type": "page"
-  }, 
+  },
+  "Clinical": {
+   "color": "#e67e22",
+   "icon": "icon-play",
+   "label": "Clinical",
+   "link": "clinical-home",
+   "type": "page"
+  },
+
   "Buying": {
    "color": "#c0392b", 
    "icon": "icon-shopping-cart", 
    "link": "buying-home", 
+   "label":"Purchase and Procurement",
    "type": "module"
   }, 
   "HR": {
    "color": "#2ecc71", 
    "icon": "icon-group", 
-   "label": "Human Resources", 
+   "label": "Human Resource Management", 
    "link": "hr-home", 
    "type": "module"
   }, 
@@ -53,6 +63,7 @@
    "color": "#1abc9c", 
    "icon": "icon-tag", 
    "link": "selling-home", 
+   "label":"Marketing and Public Relations",
    "type": "module"
   }, 
   "Setup": {
@@ -64,7 +75,8 @@
   "Stock": {
    "color": "#f39c12", 
    "icon": "icon-truck", 
-   "link": "stock-home", 
+   "link": "stock-home",
+   "label":"Inventory and Equipment Tracking",
    "type": "module"
   }, 
   "Support": {

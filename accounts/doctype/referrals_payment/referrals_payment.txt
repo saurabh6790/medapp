@@ -1,0 +1,146 @@
+[
+ {
+  "creation": "2014-01-10 14:45:28", 
+  "docstatus": 0, 
+  "modified": "2014-01-16 20:58:36", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "RP.########", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "icon": "icon-money", 
+  "is_submittable": 1, 
+  "module": "Accounts", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Referrals Payment", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "amend": 1, 
+  "cancel": 1, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Referrals Payment", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "submit": 1, 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Referrals Payment"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrals_payment_details", 
+  "fieldtype": "Section Break", 
+  "label": "Referrals Payment Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "doctor", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Doctor", 
+  "options": "Lead"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "get_patient", 
+  "fieldtype": "Button", 
+  "label": "Get Patient", 
+  "options": "get_patient"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "payment_details", 
+  "fieldtype": "Table", 
+  "label": "Payment Details", 
+  "options": "Referrals Payment Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "total_amount", 
+  "fieldtype": "Data", 
+  "in_list_view": 1, 
+  "label": "Total Amount", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "outstanding", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "in_list_view": 1, 
+  "label": "Outstanding", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "make_bank_voucher", 
+  "fieldtype": "Button", 
+  "hidden": 0, 
+  "label": "Make Bank Voucher", 
+  "options": "make_bank_voucher"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "amended_from", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Amended From", 
+  "no_copy": 1, 
+  "options": "Referrals Payment", 
+  "print_hide": 1, 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "section_break_8", 
+  "fieldtype": "Section Break", 
+  "label": "Lab"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "company", 
+  "fieldtype": "Link", 
+  "label": "Lab", 
+  "options": "Company"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "invoice", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "label": "invoice", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "jv", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "label": "jv", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "role": "Administrator"
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "role": "System Manager"
+ }
+]

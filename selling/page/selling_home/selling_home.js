@@ -7,33 +7,36 @@ wn.module_page["Selling"] = [
 		title: wn._("Documents"),
 		icon: "icon-copy",
 		items: [
+                        {
+                                label: wn._("Referring Physicians"),
+                                description: wn._("Database of potential customers."),
+                                doctype:"Lead"
+                        },
+                        {
+                                label: wn._("Campaign"),
+                                description: wn._("Campaign."),
+                                doctype:"Campaign"
+                        },
+                        {
+                                label: wn._("Contacts"),
+                                description: wn._("Contacts."),
+                                doctype:"Contact"
+                        },
+                        {
+                                label: wn._("News Letter"),
+                                description: wn._("News Letter."),
+                                doctype:"Newsletter"
+                        },
 			{
-				label: wn._("Customer"),
-				description: wn._("Customer database."),
-				doctype:"Customer"
-			},
-			{
-				label: wn._("Lead"),
-				description: wn._("Database of potential customers."),
-				doctype:"Lead"
-			},
-			{
-				label: wn._("Opportunity"),
-				description: wn._("Potential opportunities for selling."),
-				doctype:"Opportunity"
-			},
-			{
-				label: wn._("Quotation"),
-				description: wn._("Quotes to Leads or Customers."),
-				doctype:"Quotation"
-			},
-			{
-				label: wn._("Sales Order"),
-				description: wn._("Confirmed orders from Customers."),
-				doctype:"Sales Order"
-			},
+				label:wn._("Send Bulk SMS to Leads / Contacts"),
+				description:wn._("Send Bulk SMS to Leads / Contacts. "),
+				route: "Form/SMS Center",
+				doctype:"SMS Center"
+
+			}
+		
 		]
-	},
+	},/*
 	{
 		title: wn._("Masters"),
 		icon: "icon-book",
@@ -170,14 +173,21 @@ wn.module_page["Selling"] = [
 				doctype: "Customer"
 			},
 		]
-	},
+	},*/
 	{
 		title: wn._("Reports"),
 		right: true,
 		icon: "icon-list",
 		items: [
-			{
-				"label":wn._("Lead Details"),
+
+                        {
+                                label: wn._("Effectiveness Of Campaigns"),
+                                description: wn._("Effectiveness Of Campaigns"),
+                                doctype:"Campaign",
+                                route: "query-report/Campaign Success",
+                        }/*,
+        		{
+         			"label":wn._("Lead Details"),
 				route: "query-report/Lead Details",
 				doctype: "Lead"
 			},
@@ -235,7 +245,7 @@ wn.module_page["Selling"] = [
 				"label":wn._("Pending SO Items For Purchase Request"),
 				route: "query-report/Pending SO Items For Purchase Request",
 				doctype: "Sales Order"
-			},
+			},*/
 		]
 	}
 ]

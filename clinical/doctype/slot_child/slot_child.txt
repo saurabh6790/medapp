@@ -1,0 +1,89 @@
+[
+ {
+  "creation": "2014-02-01 18:19:04", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 11:51:16", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "Slots/.#######", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "module": "Clinical", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Slot Child", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Slot Child", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "role": "All", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Slot Child"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "modality", 
+  "fieldtype": "Link", 
+  "label": "Modality", 
+  "options": "Modality"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter", 
+  "fieldtype": "Link", 
+  "label": "Encounter", 
+  "options": "Patient Encounter Entry"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "slot", 
+  "fieldtype": "Link", 
+  "label": "Slot", 
+  "options": "Slots"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "start_time", 
+  "fieldtype": "Datetime", 
+  "label": "Start Time"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "end_time", 
+  "fieldtype": "Datetime", 
+  "label": "End Time"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "status", 
+  "fieldtype": "Select", 
+  "label": "Status", 
+  "options": "\nWaiting\nConfirm\nCancel"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

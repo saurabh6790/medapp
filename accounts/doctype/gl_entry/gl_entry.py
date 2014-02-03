@@ -121,7 +121,7 @@ def update_outstanding_amt(account, against_voucher_type, against_voucher, on_ca
 	bal = flt(webnotes.conn.sql("""select sum(ifnull(debit, 0)) - sum(ifnull(credit, 0)) 
 		from `tabGL Entry` 
 		where against_voucher_type=%s and against_voucher=%s and account = %s""", 
-		(against_voucher_type, against_voucher, account))[0][0] or 0.0)
+		(against_voucher_type, against_voucher, account),debug=1)[0][0] or 0.0)
 
 	if against_voucher_type == 'Purchase Invoice':
 		bal = -bal
@@ -130,7 +130,7 @@ def update_outstanding_amt(account, against_voucher_type, against_voucher, on_ca
 			select sum(ifnull(debit, 0)) - sum(ifnull(credit, 0))
 			from `tabGL Entry` where voucher_type = 'Journal Voucher' and voucher_no = %s
 			and account = %s and ifnull(against_voucher, '') = ''""", 
-			(against_voucher, account))[0][0])
+			(against_voucher, account),debug=1)[0][0])
 		bal = against_voucher_amount + bal
 		if against_voucher_amount < 0:
 			bal = -bal

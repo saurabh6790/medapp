@@ -42,13 +42,13 @@ cur_frm.cscript.setup_dashboard = function(doc) {
 	if(doc.__islocal) 
 		return;
 	if (in_list(user_roles, "Accounts User") || in_list(user_roles, "Accounts Manager"))
-		cur_frm.dashboard.set_headline('<span class="text-muted">'+ wn._('Loading...')+ '</span>')
+	/*	cur_frm.dashboard.set_headline('<span class="text-muted">'+ wn._('Loading...')+ '</span>')
 	
 	cur_frm.dashboard.add_doctype_badge("Opportunity", "customer");
 	cur_frm.dashboard.add_doctype_badge("Quotation", "customer");
 	cur_frm.dashboard.add_doctype_badge("Sales Order", "customer");
 	cur_frm.dashboard.add_doctype_badge("Delivery Note", "customer");
-	cur_frm.dashboard.add_doctype_badge("Sales Invoice", "customer");
+	cur_frm.dashboard.add_doctype_badge("Sales Invoice", "customer");*/
 	
 	return wn.call({
 		type: "GET",
@@ -58,12 +58,12 @@ cur_frm.cscript.setup_dashboard = function(doc) {
 		},
 		callback: function(r) {
 			if (in_list(user_roles, "Accounts User") || in_list(user_roles, "Accounts Manager")) {
-				cur_frm.dashboard.set_headline(
+				/*cur_frm.dashboard.set_headline(
 					wn._("Total Billing This Year: ") + "<b>" 
 					+ format_currency(r.message.total_billing, cur_frm.doc.default_currency)
 					+ '</b> / <span class="text-muted">' + wn._("Unpaid") + ": <b>" 
 					+ format_currency(r.message.total_unpaid, cur_frm.doc.default_currency) 
-					+ '</b></span>');
+					+ '</b></span>');*/
 			}
 			cur_frm.dashboard.set_badge_count(r.message);
 		}

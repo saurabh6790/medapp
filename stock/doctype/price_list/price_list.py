@@ -10,9 +10,9 @@ import webnotes.defaults
 
 class DocType(DocListController):
 	def validate(self):
-		if self.doc.buying_or_selling not in ["Buying", "Selling"]:
+		if self.doc.buying_or_selling not in ["Buying", "Selling","Billing"]:
 			msgprint(_(self.meta.get_label("buying_or_selling")) + " " + _("must be one of") + " " +
-				comma_or(["Buying", "Selling"]), raise_exception=True)
+				comma_or(["Buying", "Selling","Billing"]), raise_exception=True)
 				
 		if not self.doclist.get({"parentfield": "valid_for_territories"}):
 			# if no territory, set default territory

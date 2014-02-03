@@ -1,0 +1,57 @@
+[
+ {
+  "creation": "2014-02-02 20:00:48", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 20:00:48", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "field:state_name", 
+  "doctype": "DocType", 
+  "document_type": "Master", 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "State", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "State", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "role": "All", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "State"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "state_name", 
+  "fieldtype": "Data", 
+  "label": "State Name", 
+  "reqd": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "country", 
+  "fieldtype": "Select", 
+  "label": "Country", 
+  "options": "link:Country"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

@@ -1,0 +1,662 @@
+[
+ {
+  "creation": "2014-01-16 12:38:55", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 18:09:50", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "naming_series:", 
+  "doctype": "DocType", 
+  "document_type": "Master", 
+  "icon": "icon-file-text", 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Patient Encounter Entry", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "cancel": 1, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Patient Encounter Entry", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Patient Encounter Entry"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_data", 
+  "fieldtype": "Button", 
+  "label": "Patient Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col1", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_data", 
+  "fieldtype": "Button", 
+  "label": "Front Desk"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col2", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_fee_data", 
+  "fieldtype": "Button", 
+  "label": "Patient History"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col3", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "disc", 
+  "fieldtype": "Button", 
+  "label": "Notes"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col4", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "section_break_8", 
+  "fieldtype": "Section Break", 
+  "hidden": 1, 
+  "label": "Naming Series"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "naming_series", 
+  "fieldtype": "Select", 
+  "label": "Naming Series", 
+  "options": "ENC.######", 
+  "reqd": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_details", 
+  "fieldtype": "Section Break", 
+  "label": "Patient Details"
+ }, 
+ {
+  "depends_on": "eval:doc.existing_user!=1", 
+  "doctype": "DocField", 
+  "fieldname": "new_user", 
+  "fieldtype": "Check", 
+  "label": "New User"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_13", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "depends_on": "eval:doc.new_user!=1", 
+  "doctype": "DocField", 
+  "fieldname": "existing_user", 
+  "fieldtype": "Check", 
+  "label": "Existing User"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "section_break_15", 
+  "fieldtype": "Section Break"
+ }, 
+ {
+  "depends_on": "eval:doc.new_user=='1'&& doc.existing_user!='1'", 
+  "doctype": "DocField", 
+  "fieldname": "first_name", 
+  "fieldtype": "Data", 
+  "label": "Full Name", 
+  "reqd": 0
+ }, 
+ {
+  "depends_on": "eval:doc.new_user!='1'&& doc.existing_user=='1'", 
+  "doctype": "DocField", 
+  "fieldname": "patient", 
+  "fieldtype": "Link", 
+  "label": "Patient", 
+  "options": "Patient Register", 
+  "reqd": 0
+ }, 
+ {
+  "depends_on": "eval:doc.new_user=='1'&& doc.existing_user!='1'", 
+  "doctype": "DocField", 
+  "fieldname": "phone_number", 
+  "fieldtype": "Data", 
+  "label": "Phone Number"
+ }, 
+ {
+  "depends_on": "eval:doc.new_user!='1'&& doc.existing_user=='1'", 
+  "doctype": "DocField", 
+  "fieldname": "patient_name", 
+  "fieldtype": "Data", 
+  "label": "Patient Name", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "new_patient", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "New Patient", 
+  "options": "Patient Register"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_8", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "depends_on": "eval:doc.new_user=='1'&& doc.existing_user!='1'", 
+  "doctype": "DocField", 
+  "fieldname": "email_id", 
+  "fieldtype": "Data", 
+  "label": "Email Id"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "doctor_details", 
+  "fieldtype": "Section Break", 
+  "hidden": 1, 
+  "label": "Doctor Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "doctor", 
+  "fieldtype": "Link", 
+  "label": "Doctor", 
+  "options": "Lead"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "doctor_name", 
+  "fieldtype": "Data", 
+  "label": "Doctor Name", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_detials", 
+  "fieldtype": "Section Break", 
+  "label": "Encounter Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "checked_in", 
+  "fieldtype": "Check", 
+  "label": "Checked In"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter", 
+  "fieldtype": "Link", 
+  "label": "Modality", 
+  "options": "Modality"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "radiologist_name", 
+  "fieldtype": "Link", 
+  "label": "Radiologist Name", 
+  "options": "Employee"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "radiologist_", 
+  "fieldtype": "Data", 
+  "label": "Radiologist-", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "problem_description", 
+  "fieldtype": "Small Text", 
+  "label": "Problem Description"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_28", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_date", 
+  "fieldtype": "Date", 
+  "label": " Encounter Date"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "start_time", 
+  "fieldtype": "Time", 
+  "hidden": 1, 
+  "label": "Start Time"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "end_time", 
+  "fieldtype": "Time", 
+  "hidden": 1, 
+  "label": "End Time"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_name", 
+  "fieldtype": "Link", 
+  "label": "Referrer Name", 
+  "options": "Lead"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral", 
+  "fieldtype": "Data", 
+  "label": "Referral", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "technologist", 
+  "fieldtype": "Link", 
+  "label": "Technologist", 
+  "options": "Employee"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "technologist_name", 
+  "fieldtype": "Data", 
+  "label": "Technologist Name ", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "transportation_required", 
+  "fieldtype": "Select", 
+  "label": "Transportation Required", 
+  "options": "\nYes\nNo"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "appointment_slot", 
+  "fieldtype": "Link", 
+  "label": "Appointment Slot", 
+  "options": "Slots"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "slot", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Slot", 
+  "options": "Slot Child"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_priority", 
+  "fieldtype": "Select", 
+  "label": "Encounter Priority", 
+  "options": "\nNormal\nUrgent"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "alerts", 
+  "fieldtype": "Section Break", 
+  "label": "Alerts"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "metal_in", 
+  "fieldtype": "Check", 
+  "label": "Metal In"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_42", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "pacemaker", 
+  "fieldtype": "Check", 
+  "label": "PaceMaker"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_44", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "claustrophobia", 
+  "fieldtype": "Check", 
+  "label": "Claustrophobia"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_47", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "pregnancy", 
+  "fieldtype": "Check", 
+  "label": "Pregnancy"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cl1", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "default": "0", 
+  "doctype": "DocField", 
+  "fieldname": "others", 
+  "fieldtype": "Check", 
+  "label": "Others"
+ }, 
+ {
+  "depends_on": "eval:doc.others!=0", 
+  "doctype": "DocField", 
+  "fieldname": "procedure_alert", 
+  "fieldtype": "Small Text", 
+  "label": "Procedure Alert"
+ }, 
+ {
+  "default": "False", 
+  "doctype": "DocField", 
+  "fieldname": "entry_in_child", 
+  "fieldtype": "Select", 
+  "hidden": 1, 
+  "label": "entry_in_child", 
+  "options": "False\nTrue", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "eventid", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "label": "Eventid", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "front_desk", 
+  "fieldtype": "Section Break", 
+  "label": "Other Info"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "unable_to_work_from", 
+  "fieldtype": "Date", 
+  "label": "Unable To Work From"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "hospitalized_date_from", 
+  "fieldtype": "Date", 
+  "label": "Hospitalized Date From"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "illness_date", 
+  "fieldtype": "Date", 
+  "label": "Illness Date"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "orientation", 
+  "fieldtype": "Select", 
+  "label": "Orientation", 
+  "options": "\n10\n20"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_49", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "to", 
+  "fieldtype": "Date", 
+  "label": "To"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "to_", 
+  "fieldtype": "Date", 
+  "label": "To"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "accident_type", 
+  "fieldtype": "Select", 
+  "label": "Accident Type", 
+  "options": "\nNot Applicable\nAutomobile\nEmployment\nOther"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "body_part", 
+  "fieldtype": "Select", 
+  "label": "Body Part", 
+  "options": "\nHand\nLeg"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "send_report_by", 
+  "fieldtype": "Section Break", 
+  "label": "Send Report By"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fax", 
+  "fieldtype": "Check", 
+  "label": "Fax"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cb1", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "email", 
+  "fieldtype": "Check", 
+  "label": "Email"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cb2", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "post", 
+  "fieldtype": "Check", 
+  "label": "Post"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cb3", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_portal", 
+  "fieldtype": "Check", 
+  "label": "Patient Portal "
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "procedure_data", 
+  "fieldtype": "Section Break", 
+  "label": "Procedure"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "procedure", 
+  "fieldtype": "Table", 
+  "label": "Procedure", 
+  "options": "Procedure"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_details_", 
+  "fieldtype": "Section Break", 
+  "label": "Patient History"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_template", 
+  "fieldtype": "Select", 
+  "label": "Encounter Template", 
+  "options": "\nPatient Info"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "note", 
+  "fieldtype": "Text", 
+  "label": "Note"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "notes", 
+  "fieldtype": "Section Break", 
+  "label": "Notes"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "front_dest", 
+  "fieldtype": "Text", 
+  "label": "Front Desk"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "appointment", 
+  "fieldtype": "Text", 
+  "label": "Appointment"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "technologist_note", 
+  "fieldtype": "Text", 
+  "label": "Technologist Note"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_64", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "radiologist", 
+  "fieldtype": "Text", 
+  "label": "Radiologist"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "transcriptionist", 
+  "fieldtype": "Text", 
+  "label": "Transcriptionist"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_fee_details", 
+  "fieldtype": "Section Break", 
+  "hidden": 1, 
+  "label": "Referral Fee Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "rules", 
+  "fieldtype": "Select", 
+  "label": "Rules", 
+  "options": "\nFixed Cost\nPercentage\nLump Sum"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_24", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "value", 
+  "fieldtype": "Data", 
+  "label": "Value"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "discount_details", 
+  "fieldtype": "Section Break", 
+  "hidden": 1, 
+  "label": "Discount Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "discount_type", 
+  "fieldtype": "Select", 
+  "label": "Discount Type", 
+  "options": "\nRegular Discount\nReferral Discount"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "discount_in_percent", 
+  "fieldtype": "Percent", 
+  "label": "Discount in Percent"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "discount_as_amount", 
+  "fieldtype": "Data", 
+  "label": "Discount as Amount"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "a", 
+  "fieldtype": "Section Break", 
+  "hidden": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "company", 
+  "fieldtype": "Link", 
+  "label": "Company", 
+  "options": "Company"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

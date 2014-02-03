@@ -9,12 +9,19 @@ cur_frm.cscript.sales_team_fname = "sales_team";
 // print heading
 cur_frm.pformat.print_heading = 'Invoice';
 
+cur_frm.add_fetch('study', 'study_fees', 'export_rate');
+cur_frm.add_fetch('study', 'study_detials', 'details');
+cur_frm.add_fetch('item', 'price', 'export_rate');
+cur_frm.add_fetch('item', 'description', 'description');
+cur_frm.add_fetch('customer', 'full_name', 'customer_name_data');
+
 wn.require('app/accounts/doctype/sales_taxes_and_charges_master/sales_taxes_and_charges_master.js');
 wn.require('app/utilities/doctype/sms_control/sms_control.js');
 wn.require('app/selling/sales_common.js');
 wn.require('app/accounts/doctype/sales_invoice/pos.js');
 
 wn.provide("erpnext.accounts");
+var a={"currency_and_price_list":". Currency and Price List","amt":". Amount","items_data":". Items","customer_data":". Customer","more_info_data":". More Info"};
 erpnext.accounts.SalesInvoiceController = erpnext.selling.SellingController.extend({
 	onload: function() {
 		this._super();
@@ -86,7 +93,58 @@ erpnext.accounts.SalesInvoiceController = erpnext.selling.SellingController.exte
 			cur_frm.cscript.sales_order_btn();
 			cur_frm.cscript.delivery_note_btn();
 		}
+		setTimeout(function(){
+                        for (var key in a)
+                        {
+                                $('button[data-fieldname='+key+']').css("width","200");
+                        }
+
+                },10);
 	},
+
+
+	currency_and_price_list:function(){
+                this.make_linking('currency_and_price_list')
+
+        },
+
+        make_linking:function(show_key){
+
+                for (var key in a)
+                {
+                       
+                        $('button[data-fieldname='+key+']').css("width","200");
+                        if(key==show_key)
+                        {
+				if(key=='items_data')
+				{
+                                	$(".row:contains('"+a[key]+"')").show()
+					$(".row:contains('"+a['amt']+"')").show()
+				}
+				else
+				{
+					 $(".row:contains('"+a[key]+"')").show()
+				}
+                        }
+                        else
+                        {
+                                $(".row:contains('"+a[key]+"')").hide()
+                        }
+                }
+
+        },
+
+        items_data:function(){
+                this.make_linking('items_data')
+        },
+
+        customer_data:function(){
+                this.make_linking('customer_data')
+        },
+
+        more_info_data:function(){
+                this.make_linking('more_info_data')
+        },
 
 	sales_order_btn: function() {
 		this.$sales_order_btn = cur_frm.appframe.add_primary_action(wn._('From Sales Order'), 
@@ -158,6 +216,7 @@ erpnext.accounts.SalesInvoiceController = erpnext.selling.SellingController.exte
 	debit_to: function() {
 		this.customer();
 	},
+
 	
 	allocated_amount: function() {
 		this.calculate_total_advance("Sales Invoice", "advance_adjustment_details");
@@ -238,12 +297,30 @@ cur_frm.cscript.hide_fields = function(doc) {
 	cur_frm.refresh_fields();
 }
 
-
-cur_frm.cscript.mode_of_payment = function(doc) {
+cur_frm.cscript.mode_of_payment = function(doc, cdt, cdn) {
+	get_server_fields('child_entry','','',doc,cdt,cdn,1,function(r,rt) { refresh_field("entries");refresh_field('id')});
+	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+	
 	return cur_frm.call({
 		method: "get_bank_cash_account",
 		args: { mode_of_payment: doc.mode_of_payment }
 	});
+	
+}
+
+
+cur_frm.cscript.calculate_amt=function(doc,cdt,cdn){
+	var cl=getchildren('Sales Invoice Item',doc.name,'entries')
+	console.log(cl)
+	var s=0;
+	for (i=0;i<cl.length;i++)
+	{
+		s=s+parseFloat(cl[i].basic_charges)
+	}
+	doc.patient_amount=String(s)
+	doc.outstanding_amount_data=doc.patient_amount
+	refresh_field('patient_amount')
+	refresh_field('outstanding_amount_data')
 }
 
 cur_frm.cscript.update_stock = function(doc, dt, dn) {
@@ -289,6 +366,7 @@ cur_frm.fields_dict.debit_to.get_query = function(doc) {
 	}
 }
 
+
 cur_frm.fields_dict.cash_bank_account.get_query = function(doc) {
 	return{
 		filters: {
@@ -299,6 +377,45 @@ cur_frm.fields_dict.cash_bank_account.get_query = function(doc) {
 		}
 	}	
 }
+
+cur_frm.cscript.export_rate=function(doc,cdt,cdn){
+	var d=locals[cdt][cdn];
+	var args=new Array()
+	var args=[d.export_rate]
+	console.log('hello')
+	cur_frm.cscript.qty(doc,cdt,cdn)
+	if(d.export_rate && d.discount)
+	{
+	/*	wn.call({
+                	method: 'accounts.doctype.sales_invoice.sales_invoice.get_values_amt',
+                	args: { export_rate:d.export_rate, discount: d.discount },
+                	callback: function(r, rt) {
+				if(r.message)
+				{
+					d.basic_charges=r.message
+					refresh_field('entries')
+					cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+				}			
+                        
+                	}
+        	});*/
+		cur_frm.cscript.discount_type(doc,cdt,cdn)
+	        cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+		
+
+	}
+	else
+	{
+		d.basic_charges=flt(d.export_rate) * flt(d.qty)
+	        refresh_field('entries')
+		cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+	}
+
+}
+
+/*cur_frm.cscript.discount=function(doc,cdt,cdn){
+	cur_frm.cscript.export_rate(doc,cdt,cdn)
+}*/
 
 cur_frm.fields_dict.write_off_account.get_query = function(doc) {
 	return{
@@ -366,6 +483,13 @@ cur_frm.fields_dict['entries'].grid.get_field('warehouse').get_query = function(
 	}	
 }
 
+cur_frm.fields_dict['entries'].grid.get_field('modality').get_query = function(doc, cdt, cdn) {
+        var d = locals[cdt][cdn];
+        return "select name from `tabModality` where active='Yes' "               
+}
+
+
+
 // Cost Center in Details Table
 // -----------------------------
 cur_frm.fields_dict["entries"].grid.get_field("cost_center").get_query = function(doc) {
@@ -376,6 +500,8 @@ cur_frm.fields_dict["entries"].grid.get_field("cost_center").get_query = functio
 		}	
 	}
 }
+
+
 
 cur_frm.cscript.income_account = function(doc, cdt, cdn) {
 	cur_frm.cscript.copy_account_in_all_row(doc, cdt, cdn, "income_account");
@@ -394,6 +520,13 @@ cur_frm.cscript.on_submit = function(doc, cdt, cdn) {
 		cur_frm.email_doc(wn.boot.notification_settings.sales_invoice_message);
 	}
 }
+
+cur_frm.cscript.referrer_name=function(doc,cdt,cdn){
+	var d=locals[cdt][cdn]
+	get_server_fields('get_referrer_account',d.referrer_name,'',doc,cdt,cdn,1,function(r,rt){console.log([r,rt])})
+	refresh_field('referrer_physician_credit_to')
+}
+
 
 cur_frm.cscript.convert_into_recurring_invoice = function(doc, dt, dn) {
 	// set default values for recurring invoices
@@ -425,3 +558,79 @@ cur_frm.cscript.invoice_period_from_date = function(doc, dt, dn) {
 		}
 	}
 }
+
+cur_frm.cscript.discount_type = function(doc,cdt,cdn){
+	var d=locals[cdt][cdn];
+	if(d.discount_type=="Referral discount"){
+		d.discount = 0;
+		refresh_field('discount', d.name, 'entries');
+		if(d.referral_rule=='Fixed Cost'){	
+			d.basic_charges = (flt(d.export_rate)*flt(d.qty)) - flt(d.referral_fee)
+			refresh_field('basic_charges', d.name, 'entries');
+		}
+		else{
+			var amount = (flt(d.export_rate)*flt(d.qty))*flt(d.referral_fee / 100)
+			d.basic_charges = (flt(d.export_rate)*flt(d.qty)) - amount
+                        refresh_field('basic_charges', d.name, 'entries');
+		}
+	}
+	else{
+		if(!d.discount){
+			d.discount = 0;
+                	refresh_field('discount', d.name, 'entries');}
+		var amount = (flt(d.export_rate)*flt(d.qty))*flt(d.discount / 100)
+                d.basic_charges = (flt(d.export_rate)*flt(d.qty)) - amount
+                refresh_field('basic_charges', d.name, 'entries');
+	}
+}
+
+cur_frm.cscript.qty = function(doc,cdt,cdn){
+	var d=locals[cdt][cdn];
+	if(flt(d.qty) < 0){
+		msgprint("Negative Quantity Not allowed")
+	}
+	else{
+		d.basic_charges = flt(d.export_rate) * flt(d.qty)
+                refresh_field('basic_charges', d.name, 'entries');
+	}
+}
+
+cur_frm.cscript.discount = function(doc,cdt,cdn){
+	cur_frm.cscript.discount_type(doc, cdt, cdn)
+	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+}
+cur_frm.cscript.referral_rule = function(doc,cdt,cdn){
+	cur_frm.cscript.discount_type(doc,cdt,cdn)
+	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+}
+cur_frm.cscript.referral_fee=function(doc, cdt, cdn){
+	cur_frm.cscript.discount_type(doc,cdt,cdn)
+	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+} 
+
+cur_frm.cscript.custom_validate = function(doc,cdt,cdn){
+	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
+	cur_frm.cscript.outstanding_amt(doc,cdt,cdn)
+}
+
+cur_frm.cscript.paid_amount_data=function(doc,cdt,cdn){
+	cur_frm.cscript.outstanding_amt(doc,cdt,cdn)
+}
+
+cur_frm.cscript.outstanding_amt=function(doc,cdt,cdn){
+	var out_amt=getchildren('Sales Invoice Advance',doc.name,'advance_adjustment_details')
+	var amt=0;
+	if(out_amt)
+	{
+		for(i=0;i<out_amt.length;i++)
+		{
+			amt=amt+parseFloat(out_amt[i].allocated_amount)
+		}
+	}
+	
+	doc.outstanding_amount=parseFloat(doc.outstanding_amount)-parseFloat(doc.paid_amount_data)-parseFloat(amt)
+	refresh_field('outstanding_amount')	
+	console.log(doc.outstanding_amount)
+}
+
+

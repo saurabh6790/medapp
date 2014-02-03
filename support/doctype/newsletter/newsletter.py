@@ -47,6 +47,10 @@ class DocType():
 			elif self.doc.contact_type == "Supplier":		
 				return webnotes.conn.sql_list("""select email_id from tabContact 
 					where ifnull(email_id, '') != '' and ifnull(supplier, '') != ''""")
+
+			elif self.doc.contact_type == "Referrer Physician":
+                                return webnotes.conn.sql_list("""select email_id from tabContact 
+                                        where ifnull(email_id, '') != '' and ifnull(referrer_physician, '') != ''""")
 	
 		elif self.doc.send_to_type=="Lead":
 			self.send_to_doctype = "Lead"

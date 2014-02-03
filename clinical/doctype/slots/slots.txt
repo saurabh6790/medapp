@@ -1,0 +1,84 @@
+[
+ {
+  "creation": "2014-02-01 18:12:14", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 20:06:06", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "Slot/.#######", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "module": "Clinical", 
+  "name": "__common__", 
+  "search_fields": "start_time,end_time"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Slots", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Slots", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "role": "All", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Slots"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "modality", 
+  "fieldtype": "Link", 
+  "label": "Modality", 
+  "options": "Modality", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "start_time", 
+  "fieldtype": "Time", 
+  "in_list_view": 1, 
+  "label": "Start Time", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "end_time", 
+  "fieldtype": "Time", 
+  "in_list_view": 1, 
+  "label": "End Time", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "active", 
+  "fieldtype": "Select", 
+  "in_list_view": 1, 
+  "label": "Active", 
+  "options": "Yes\nNo"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

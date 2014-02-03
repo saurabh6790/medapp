@@ -23,17 +23,31 @@ class DocType:
 			self.doc.price_list, ["buying_or_selling", "currency"])
 
 	def update_item_details(self):
-		self.doc.item_name, self.doc.item_description = webnotes.conn.get_value("Item", 
-			self.doc.item_code, ["item_name", "description"])
+		if self.doc.item_code:
+			self.doc.item_name, self.doc.item_description = webnotes.conn.get_value("Item", 
+				self.doc.item_code, ["item_name", "description"])
 
 	def check_duplicate_item(self):
-		if webnotes.conn.sql("""select name from `tabItem Price` 
-			where item_code=%s and price_list=%s and name!=%s""", 
-			(self.doc.item_code, self.doc.price_list, self.doc.name)):
-				webnotes.throw("{duplicate_item}: {item_code}, {already}: {price_list}".format(**{
-					"duplicate_item": _("Duplicate Item"),
-					"item_code": self.doc.item_code,
-					"already": _("already available in Price List"),
-					"price_list": self.doc.price_list
-				}), ItemPriceDuplicateItem)
+		if self.doc.item_code:
+			if webnotes.conn.sql("""select name from `tabItem Price` 
+				where item_code=%s and price_list=%s and name!=%s""", 
+				(self.doc.item_code, self.doc.price_list, self.doc.name)):
+					webnotes.throw("{duplicate_item}: {item_code}, {already}: {price_list}".format(**{
+						"duplicate_item": _("Duplicate Item"),
+						"item_code": self.doc.item_code,
+						"already": _("already available in Price List"),
+						"price_list": self.doc.price_list
+					}), ItemPriceDuplicateItem)
+
+		if self.doc.study:
+			if webnotes.conn.sql("""select name from `tabItem Price` 
+                                where study=%s and price_list=%s and name!=%s""",
+                                (self.doc.study, self.doc.price_list, self.doc.name)):
+                                        webnotes.throw("{duplicate_item}: {study}, {already}: {price_list}".format(**{
+                                                "duplicate_item": _("Duplicate Study"),
+                                                "item_study": self.doc.study,
+                                                "already": _("already available in Price List"),
+                                                "price_list": self.doc.price_list
+                                        }), ItemPriceDuplicateItem)
+
 				

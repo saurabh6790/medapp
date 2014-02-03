@@ -1,0 +1,81 @@
+[
+ {
+  "creation": "2014-01-29 19:42:11", 
+  "docstatus": 0, 
+  "modified": "2014-01-29 19:42:11", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "proc.########", 
+  "doctype": "DocType", 
+  "module": "Clinical", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "in_list_view": 1, 
+  "name": "__common__", 
+  "parent": "Procedure", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "cancel": 1, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Procedure", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Procedure"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "procedure_description", 
+  "fieldtype": "Small Text", 
+  "label": "Procedure Description"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cpt_code", 
+  "fieldtype": "Data", 
+  "label": "CPT Code"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "cpt_description", 
+  "fieldtype": "Small Text", 
+  "label": "CPT Description"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "modifier", 
+  "fieldtype": "Data", 
+  "label": "Modifier"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fee", 
+  "fieldtype": "Data", 
+  "label": "Fee"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "professional_fee", 
+  "fieldtype": "Data", 
+  "label": "Professional Fee"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

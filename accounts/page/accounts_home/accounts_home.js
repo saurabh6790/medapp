@@ -188,6 +188,10 @@ wn.module_page["Accounts"] = [
 				route: "query-report/Purchase Register",
 				doctype: "Purchase Invoice"
 			},
+			{
+				"label":wn._("Referral Payment Details"),
+				route: "query-report/Referral Payment Details"
+			},
 		]
 	},
 	{

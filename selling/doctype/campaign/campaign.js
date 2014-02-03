@@ -5,9 +5,10 @@
 
 //--------- ONLOAD -------------
 cur_frm.cscript.onload = function(doc, cdt, cdn) {
-   
+if(this.frm.doc.__islocal) {
+doc.date=get_today();
 }
-
+}
 cur_frm.cscript.refresh = function(doc, cdt, cdn) {
-   
+  
 }

@@ -1,0 +1,21 @@
+[
+ {
+  "creation": "2014-02-02 15:07:52", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 15:07:52", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "doctype": "Report", 
+  "is_standard": "Yes", 
+  "name": "__common__", 
+  "ref_doctype": "Slots", 
+  "report_name": "Available Slot Details", 
+  "report_type": "Script Report"
+ }, 
+ {
+  "doctype": "Report", 
+  "name": "Available Slot Details"
+ }
+]

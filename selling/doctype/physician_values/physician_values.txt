@@ -1,0 +1,71 @@
+[
+ {
+  "creation": "2014-01-23 16:01:02", 
+  "docstatus": 0, 
+  "modified": "2014-02-02 11:53:08", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "Physician/.#######", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "istable": 1, 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Physician Values", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Physician Values"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "modality", 
+  "fieldtype": "Link", 
+  "label": "Modality", 
+  "options": "Modality"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study_name", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Study Name", 
+  "options": "Study"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_rule", 
+  "fieldtype": "Select", 
+  "in_list_view": 1, 
+  "label": "Referral Rule", 
+  "options": "\nFixed Cost\nPercent"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_fee", 
+  "fieldtype": "Currency", 
+  "in_list_view": 1, 
+  "label": "Referral Fee    (Amount/Percentage)"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study_details", 
+  "fieldtype": "Small Text", 
+  "in_list_view": 1, 
+  "label": "Study Details"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_5", 
+  "fieldtype": "Section Break"
+ }
+]

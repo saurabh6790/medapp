@@ -7,11 +7,12 @@ wn.module_page["Stock"] = [
 		top: true,
 		icon: "icon-copy",
 		items: [
+			
 			{
-				label: wn._("Item"),
-				description: wn._("All Products or Services."),
-				doctype:"Item"
-			},
+                                label: wn._("Item"),
+                                description: wn._("All Products or Services."),
+                                doctype:"Item"
+                        },
 			{
 				label: wn._("Material Request"),
 				description: wn._("Requests for items."),

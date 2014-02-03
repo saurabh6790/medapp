@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-24 19:29:05", 
   "docstatus": 0, 
-  "modified": "2013-11-18 15:16:50", 
+  "modified": "2014-02-02 21:16:05", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -44,6 +44,50 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "customer_data", 
+  "fieldtype": "Button", 
+  "label": "Customer"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col1", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "currency_and_price_list", 
+  "fieldtype": "Button", 
+  "label": "Currency and Price List"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col2", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "items_data", 
+  "fieldtype": "Button", 
+  "label": "Items"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col3", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "more_info_data", 
+  "fieldtype": "Button", 
+  "label": "More Info"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "col5", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "customer_section", 
   "fieldtype": "Section Break", 
   "label": "Customer", 
@@ -73,19 +117,23 @@
   "oldfieldtype": "Link", 
   "options": "Customer", 
   "print_hide": 1, 
-  "read_only": 0
+  "read_only": 0, 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "discount_type", 
+  "fieldtype": "Select", 
+  "hidden": 1, 
+  "label": "Discount Type", 
+  "options": "\nRegular Discount\nReferral Discount"
  }, 
  {
   "depends_on": "customer", 
   "doctype": "DocField", 
   "fieldname": "customer_name", 
   "fieldtype": "Data", 
-  "hidden": 0, 
-  "in_list_view": 1, 
-  "label": "Name", 
-  "oldfieldname": "customer_name", 
-  "oldfieldtype": "Data", 
-  "read_only": 1
+  "label": "Customer Name"
  }, 
  {
   "doctype": "DocField", 
@@ -153,6 +201,7 @@
   "doctype": "DocField", 
   "fieldname": "company", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Company", 
   "oldfieldname": "company", 
@@ -160,7 +209,7 @@
   "options": "Company", 
   "print_hide": 1, 
   "read_only": 0, 
-  "reqd": 1, 
+  "reqd": 0, 
   "search_index": 0
  }, 
  {
@@ -193,19 +242,9 @@
  }, 
  {
   "doctype": "DocField", 
-  "fieldname": "mode_of_payment", 
-  "fieldtype": "Select", 
-  "label": "Mode of Payment", 
-  "no_copy": 0, 
-  "oldfieldname": "mode_of_payment", 
-  "oldfieldtype": "Select", 
-  "options": "link:Mode of Payment", 
-  "read_only": 0
- }, 
- {
-  "doctype": "DocField", 
   "fieldname": "currency_section", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Currency and Price List", 
   "options": "icon-tag", 
   "read_only": 0
@@ -220,7 +259,7 @@
   "options": "Currency", 
   "print_hide": 1, 
   "read_only": 0, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "description": "Rate at which Customer Currency is converted to customer's base currency", 
@@ -232,7 +271,7 @@
   "oldfieldtype": "Currency", 
   "print_hide": 1, 
   "read_only": 0, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "doctype": "DocField", 
@@ -251,7 +290,7 @@
   "options": "Price List", 
   "print_hide": 1, 
   "read_only": 0, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "doctype": "DocField", 
@@ -261,7 +300,7 @@
   "options": "Currency", 
   "print_hide": 1, 
   "read_only": 1, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "description": "Rate at which Price list currency is converted to customer's base currency", 
@@ -272,7 +311,7 @@
   "no_copy": 0, 
   "print_hide": 1, 
   "read_only": 0, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "doctype": "DocField", 
@@ -285,8 +324,16 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "mode_of_payment", 
+  "fieldtype": "Select", 
+  "label": "Mode of Payment", 
+  "options": "link:Mode of Payment"
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "update_stock", 
   "fieldtype": "Check", 
+  "hidden": 1, 
   "label": "Update Stock", 
   "oldfieldname": "update_stock", 
   "oldfieldtype": "Check", 
@@ -334,15 +381,66 @@
  {
   "doctype": "DocField", 
   "fieldname": "section_break_30", 
-  "fieldtype": "Section Break"
+  "fieldtype": "Section Break", 
+  "label": "Amount"
  }, 
  {
   "doctype": "DocField", 
   "fieldname": "net_total_export", 
   "fieldtype": "Currency", 
+  "hidden": 1, 
   "label": "Net Total", 
   "options": "currency", 
   "print_hide": 0, 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "lump_sum_payment", 
+  "fieldtype": "Check", 
+  "hidden": 1, 
+  "label": "Lump Sum Payment"
+ }, 
+ {
+  "depends_on": "eval:doc.lump_sum_payment=='1'", 
+  "doctype": "DocField", 
+  "fieldname": "amount", 
+  "fieldtype": "Currency", 
+  "label": "Amount"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_amount", 
+  "fieldtype": "Currency", 
+  "label": "Total Patient Amount", 
+  "options": "Company:company:default_currency", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "paid_amount_data", 
+  "fieldtype": "Currency", 
+  "label": "Paid Amount", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "paid_amount", 
+  "fieldtype": "Currency", 
+  "hidden": 1, 
+  "label": "Paid Amount", 
+  "options": "Company:company:default_currency", 
+  "reqd": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "outstanding_amount", 
+  "fieldtype": "Currency", 
+  "hidden": 1, 
+  "label": "Outstanding Amount", 
+  "no_copy": 1, 
+  "options": "Company:company:default_currency", 
+  "print_hide": 1, 
   "read_only": 1
  }, 
  {
@@ -366,6 +464,7 @@
   "doctype": "DocField", 
   "fieldname": "taxes", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Taxes and Charges", 
   "oldfieldtype": "Section Break", 
   "options": "icon-money", 
@@ -400,7 +499,8 @@
  {
   "doctype": "DocField", 
   "fieldname": "section_break_40", 
-  "fieldtype": "Section Break"
+  "fieldtype": "Section Break", 
+  "hidden": 1
  }, 
  {
   "allow_on_submit": 1, 
@@ -425,7 +525,8 @@
  {
   "doctype": "DocField", 
   "fieldname": "section_break_43", 
-  "fieldtype": "Section Break"
+  "fieldtype": "Section Break", 
+  "hidden": 1
  }, 
  {
   "doctype": "DocField", 
@@ -456,6 +557,7 @@
   "doctype": "DocField", 
   "fieldname": "totals", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Totals", 
   "oldfieldtype": "Section Break", 
   "options": "icon-money", 
@@ -575,21 +677,9 @@
  }, 
  {
   "doctype": "DocField", 
-  "fieldname": "outstanding_amount", 
-  "fieldtype": "Currency", 
-  "in_list_view": 1, 
-  "label": "Outstanding Amount", 
-  "no_copy": 1, 
-  "oldfieldname": "outstanding_amount", 
-  "oldfieldtype": "Currency", 
-  "options": "Company:company:default_currency", 
-  "print_hide": 1, 
-  "read_only": 1
- }, 
- {
-  "doctype": "DocField", 
   "fieldname": "advances", 
   "fieldtype": "Section Break", 
+  "hidden": 0, 
   "label": "Advances", 
   "oldfieldtype": "Section Break", 
   "options": "icon-money", 
@@ -622,6 +712,7 @@
   "doctype": "DocField", 
   "fieldname": "payments_section", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Payments", 
   "options": "icon-money", 
   "read_only": 0
@@ -633,18 +724,6 @@
   "fieldtype": "Column Break", 
   "read_only": 0, 
   "width": "50%"
- }, 
- {
-  "depends_on": "is_pos", 
-  "doctype": "DocField", 
-  "fieldname": "paid_amount", 
-  "fieldtype": "Currency", 
-  "label": "Paid Amount", 
-  "oldfieldname": "paid_amount", 
-  "oldfieldtype": "Currency", 
-  "options": "Company:company:default_currency", 
-  "print_hide": 1, 
-  "read_only": 0
  }, 
  {
   "depends_on": "is_pos", 
@@ -709,6 +788,7 @@
   "doctype": "DocField", 
   "fieldname": "terms_section_break", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Terms and Conditions", 
   "oldfieldtype": "Section Break", 
   "options": "icon-legal", 
@@ -739,7 +819,7 @@
   "doctype": "DocField", 
   "fieldname": "contact_section", 
   "fieldtype": "Section Break", 
-  "hidden": 0, 
+  "hidden": 1, 
   "label": "Contact Info", 
   "options": "icon-bullhorn", 
   "read_only": 0
@@ -810,19 +890,29 @@
   "fieldname": "debit_to", 
   "fieldtype": "Link", 
   "in_filter": 1, 
-  "label": "Debit To", 
+  "label": "Patient Debit To", 
   "oldfieldname": "debit_to", 
   "oldfieldtype": "Link", 
   "options": "Account", 
   "print_hide": 1, 
-  "read_only": 0, 
+  "read_only": 1, 
   "reqd": 1, 
   "search_index": 1
+ }, 
+ {
+  "default": "Cash - MS", 
+  "doctype": "DocField", 
+  "fieldname": "patient_credit_to", 
+  "fieldtype": "Link", 
+  "label": "Patient Credit To", 
+  "options": "Account", 
+  "reqd": 1
  }, 
  {
   "doctype": "DocField", 
   "fieldname": "project_name", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Project Name", 
   "oldfieldname": "project_name", 
@@ -836,6 +926,7 @@
   "doctype": "DocField", 
   "fieldname": "campaign", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "label": "Campaign", 
   "oldfieldname": "campaign", 
   "oldfieldtype": "Link", 
@@ -847,6 +938,7 @@
   "doctype": "DocField", 
   "fieldname": "source", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "label": "Source", 
   "oldfieldname": "source", 
   "oldfieldtype": "Select", 
@@ -860,6 +952,7 @@
   "doctype": "DocField", 
   "fieldname": "is_opening", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "in_filter": 1, 
   "label": "Is Opening Entry", 
   "oldfieldname": "is_opening", 
@@ -873,6 +966,7 @@
   "doctype": "DocField", 
   "fieldname": "c_form_applicable", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "label": "C-Form Applicable", 
   "no_copy": 1, 
   "options": "No\nYes", 
@@ -884,6 +978,7 @@
   "doctype": "DocField", 
   "fieldname": "c_form_no", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "label": "C-Form No", 
   "no_copy": 1, 
   "options": "C-Form", 
@@ -897,6 +992,24 @@
   "oldfieldtype": "Column Break", 
   "print_hide": 1, 
   "read_only": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_physician_credit_to", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Referrer Physician Credit To", 
+  "options": "Account", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referrer_physician_debit_to", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Referrer Physician Debit To", 
+  "options": "Account", 
+  "reqd": 0
  }, 
  {
   "allow_on_submit": 1, 
@@ -965,6 +1078,7 @@
   "doctype": "DocField", 
   "fieldname": "remarks", 
   "fieldtype": "Small Text", 
+  "hidden": 1, 
   "label": "Remarks", 
   "no_copy": 1, 
   "oldfieldname": "remarks", 
@@ -977,6 +1091,7 @@
   "doctype": "DocField", 
   "fieldname": "sales_team_section_break", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Sales Team", 
   "oldfieldtype": "Section Break", 
   "options": "icon-group", 
@@ -1038,6 +1153,7 @@
   "doctype": "DocField", 
   "fieldname": "section_break2", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "print_hide": 1, 
   "read_only": 0
  }, 
@@ -1057,6 +1173,7 @@
   "doctype": "DocField", 
   "fieldname": "recurring_invoice", 
   "fieldtype": "Section Break", 
+  "hidden": 1, 
   "label": "Recurring Invoice", 
   "options": "icon-time", 
   "print_hide": 1, 

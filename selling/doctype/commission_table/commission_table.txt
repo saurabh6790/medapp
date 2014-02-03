@@ -1,0 +1,55 @@
+[
+ {
+  "creation": "2014-01-08 20:11:54", 
+  "docstatus": 0, 
+  "modified": "2014-01-08 20:23:12", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "custom": 1, 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "istable": 1, 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "in_list_view": 1, 
+  "name": "__common__", 
+  "parent": "Commission Table", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Commission Table"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_id", 
+  "fieldtype": "Link", 
+  "label": "Patient Id", 
+  "options": "Patient Registration"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_name", 
+  "fieldtype": "Data", 
+  "label": "Patient Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "type", 
+  "fieldtype": "Select", 
+  "label": "Type"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "commission_rate", 
+  "fieldtype": "Currency", 
+  "label": "Commission Rate"
+ }
+]

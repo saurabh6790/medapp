@@ -1,0 +1,21 @@
+[
+ {
+  "creation": "2014-01-16 15:56:06", 
+  "docstatus": 0, 
+  "modified": "2014-01-16 16:42:38", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "doctype": "Report", 
+  "is_standard": "Yes", 
+  "name": "__common__", 
+  "ref_doctype": "Campaign", 
+  "report_name": "Campaign Success", 
+  "report_type": "Script Report"
+ }, 
+ {
+  "doctype": "Report", 
+  "name": "Campaign Success"
+ }
+]

@@ -5,6 +5,7 @@ wn.require('app/utilities/doctype/sms_control/sms_control.js');
 wn.require('app/setup/doctype/contact_control/contact_control.js');
 
 wn.provide("erpnext");
+var a={"referring_physician_details":". Referring Physician Details","communication":". Communication","address_and_contact":". Address & Contact","referral_fee":". Referral Fee"};
 erpnext.LeadController = wn.ui.form.Controller.extend({
 	setup: function() {
 		this.frm.fields_dict.customer.get_query = function(doc,cdt,cdn) {
@@ -14,7 +15,7 @@ erpnext.LeadController = wn.ui.form.Controller.extend({
 	onload: function() {
 		if(cur_frm.fields_dict.lead_owner.df.options.match(/^Profile/)) {
 			cur_frm.fields_dict.lead_owner.get_query = function(doc,cdt,cdn) {
-				return { query:"core.doctype.profile.profile.profile_query" } }
+				return { query:"selling.doctype.lead.lead.get_lead_owner" } }
 		}
 
 		if(cur_frm.fields_dict.contact_by.df.options.match(/^Profile/)) {
@@ -50,7 +51,51 @@ erpnext.LeadController = wn.ui.form.Controller.extend({
 		if(!this.frm.doc.__islocal) {
 			this.make_address_list();
 		}
+		
+		setTimeout(function(){
+			for (var key in a)
+	                {
+				$('button[data-fieldname='+key+']').css("width","200");
+			}
+
+		},10);
+		//this.make_linking('referring_physician_details')
 	},
+
+	referring_physician_details:function(){
+		this.make_linking('referring_physician_details')
+		
+	},
+
+	make_linking:function(show_key){
+			
+		for (var key in a)
+		{
+			console.log("hi")		
+			$('button[data-fieldname='+key+']').css("width","200");
+			if(key==show_key)
+			{
+				$(".row:contains('"+a[key]+"')").show()
+			}
+			else
+			{
+				$(".row:contains('"+a[key]+"')").hide()
+			}
+		}
+	
+	},
+
+	communication:function(){
+                this.make_linking('communication')
+        },
+
+	address_and_contact:function(){
+                this.make_linking('address_and_contact')
+        },
+
+	referral_fee:function(){
+                this.make_linking('referral_fee')
+        },
 	
 	make_address_list: function() {
 		var me = this;
@@ -90,4 +135,16 @@ erpnext.LeadController = wn.ui.form.Controller.extend({
 	}
 });
 
+
 $.extend(cur_frm.cscript, new erpnext.LeadController({frm: cur_frm}));
+
+cur_frm.fields_dict['physician_values'].grid.get_field('modality').get_query = function(doc, cdt, cdn) {
+        var d = locals[cdt][cdn];
+        return "select name from `tabModality` where active='Yes'"
+}
+
+cur_frm.fields_dict['state'].get_query = function(doc) {
+ return "select name from tabState where country='"+doc.country+"'"
+}
+
+

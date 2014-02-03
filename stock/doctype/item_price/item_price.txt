@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-02 16:29:48", 
   "docstatus": 0, 
-  "modified": "2013-10-31 12:59:02", 
+  "modified": "2014-01-25 12:56:17", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -53,6 +53,7 @@
   "reqd": 1
  }, 
  {
+  "depends_on": "eval:doc.buying_or_selling!=\"Billing\"", 
   "doctype": "DocField", 
   "fieldname": "item_code", 
   "fieldtype": "Link", 
@@ -62,8 +63,16 @@
   "oldfieldname": "price_list_name", 
   "oldfieldtype": "Select", 
   "options": "Item", 
-  "reqd": 1, 
+  "reqd": 0, 
   "search_index": 1
+ }, 
+ {
+  "depends_on": "eval:doc.buying_or_selling==\"Billing\"", 
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study"
  }, 
  {
   "doctype": "DocField", 
@@ -90,10 +99,11 @@
   "in_filter": 1, 
   "in_list_view": 1, 
   "label": "Valid for Buying or Selling?", 
-  "options": "Selling\nBuying", 
+  "options": "Selling\nBuying\nBilling", 
   "reqd": 0
  }, 
  {
+  "depends_on": "eval:doc.buying_or_selling!=\"Billing\"", 
   "doctype": "DocField", 
   "fieldname": "item_name", 
   "fieldtype": "Data", 
@@ -101,6 +111,7 @@
   "read_only": 1
  }, 
  {
+  "depends_on": "eval:doc.buying_or_selling!=\"Billing\"", 
   "doctype": "DocField", 
   "fieldname": "item_description", 
   "fieldtype": "Text", 

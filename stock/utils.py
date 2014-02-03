@@ -29,7 +29,17 @@ def get_stock_balance_on(warehouse, posting_date=None):
 		sle_map.setdefault(sle.item_code, flt(sle.stock_value))
 		
 	return sum(sle_map.values())
-	
+
+def get_br(bno):
+	import barcode
+        #msgprint("bno "+cstr(bno))
+	from barcode.writer import ImageWriter
+	EAN = barcode.get_barcode_class('code39')
+	ean = EAN(bno, writer=ImageWriter())
+	fullname = ean.save(bno)
+        #msgprint("from utils "+cstr(fullname))
+        return fullname
+
 def get_latest_stock_balance():
 	bin_map = {}
 	for d in webnotes.conn.sql("""SELECT item_code, warehouse, stock_value as stock_value 

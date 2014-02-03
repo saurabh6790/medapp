@@ -1,0 +1,94 @@
+[
+ {
+  "creation": "2014-01-07 12:02:09", 
+  "docstatus": 0, 
+  "modified": "2014-02-01 16:01:03", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "custom": 1, 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "istable": 1, 
+  "module": "Selling", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Insurance Profile", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Insurance Profile"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "short_description", 
+  "fieldtype": "Data", 
+  "in_list_view": 1, 
+  "label": "Short Description"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "insurance_name", 
+  "fieldtype": "Data", 
+  "in_list_view": 1, 
+  "label": "Insurance Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "insurance_type", 
+  "fieldtype": "Link", 
+  "in_list_view": 1, 
+  "label": "Insurance Type", 
+  "options": "Insurance Type"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "priority", 
+  "fieldtype": "Select", 
+  "in_list_view": 1, 
+  "label": "Priority", 
+  "options": "\nPrimary \nSecondary\nTernary"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "telephone", 
+  "fieldtype": "Data", 
+  "in_list_view": 0, 
+  "label": "Telephone"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fax", 
+  "fieldtype": "Data", 
+  "in_list_view": 0, 
+  "label": "Fax"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "co_payment", 
+  "fieldtype": "Data", 
+  "in_list_view": 0, 
+  "label": "Co-Payment"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "plan_type", 
+  "fieldtype": "Data", 
+  "in_list_view": 0, 
+  "label": "Plan Type"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "policy_number", 
+  "fieldtype": "Data", 
+  "in_list_view": 0, 
+  "label": "Policy Number"
+ }
+]

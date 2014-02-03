@@ -7,16 +7,17 @@ import webnotes.defaults
 
 from webnotes.utils import add_days, cint, cstr, date_diff, flt, getdate, nowdate, \
 	get_first_day, get_last_day
-
+from webnotes.model.doc import addchild
 from webnotes.utils.email_lib import sendmail
 from webnotes.utils import comma_and, get_url
 from webnotes.model.doc import make_autoname
 from webnotes.model.bean import getlist
 from webnotes.model.code import get_obj
 from webnotes import _, msgprint
+from webnotes.model.doc import Document
 
 month_map = {'Monthly': 1, 'Quarterly': 3, 'Half-yearly': 6, 'Yearly': 12}
-
+ids = []
 from controllers.selling_controller import SellingController
 
 class DocType(SellingController):
@@ -74,6 +75,52 @@ class DocType(SellingController):
 		self.validate_recurring_invoice()
 		self.validate_multiple_billing("Delivery Note", "dn_detail", "export_amount", 
 			"delivery_note_details")
+		
+			
+	def child_entry(self):	
+		services = webnotes.conn.sql(""" SELECT foo.*, case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""' and a.referral_fee <> 0) then (select a.referral_fee from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""') else (select ifnull(referral_fee,0) from tabStudy where name=foo.study) end as referral_fee,
+case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""' and a.referral_fee <> 0) then (select a.referral_rule from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""') else (select referral_rule from tabStudy where name=foo.study) end as referral_rule
+	FROM ( SELECT s.study_aim AS study,s.modality, e.encounter,e.referrer_name, e.name, s.discount_type,s.study_detials,s.discounted_value as dis_value FROM `tabEncounter` e, tabStudy s WHERE ifnull(e.is_invoiced,'False')='False' AND 
+e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
+		
+		for srv in services:
+				
+			cld = addchild(self.doc, 'entries', 'Sales Invoice Item',self.doclist)		
+			cld.study = srv['study']
+			cld.modality = srv['modality']
+			cld.encounter_id = srv['name']
+			cld.discount_type = srv['discount_type']
+			export_rate=webnotes.conn.sql("""select ref_rate from `tabItem Price` 
+					where price_list = '%s' and study = '%s'"""%(self.doc.selling_price_list,srv['study']),debug=1)
+			cld.export_rate = export_rate[0][0] if export_rate else 0
+			cld.referrer_name=srv['referrer_name']
+			if cld.referrer_name:
+				acc_head = webnotes.conn.sql("""select name, credit_days from `tabAccount` 
+                                where (name = %s or (master_name = %s and master_type = 'Lead')) 
+                                and docstatus != 2 and company = %s""",
+                                (cstr(cld.referrer_name) + " - " + self.company_abbr,
+                                cld.referrer_name, self.doc.company),debug=1)
+
+                        	if acc_head and acc_head[0][0]:
+                                	cld.referrer_physician_credit_to = acc_head[0][0]
+				
+			cld.referral_rule= srv['referral_rule']
+                        cld.referral_fee= srv['referral_fee']
+			if srv['discount_type']=='Regular discount':
+				cld.discount=srv['dis_value']
+				cld.basic_charges=cstr(flt(cld.export_rate)-flt(flt(cld.export_rate)*flt(cld.discount)/100))
+				cld.discount_in_amt=cstr(flt(flt(cld.export_rate)*flt(cld.discount)/100))
+			else:
+				if srv['referral_rule'] == 'Fixed Cost':
+					cld.basic_charges=cstr(flt(cld.export_rate)-flt(cld.referral_fee))                              
+	                                cld.discount_in_amt=cstr(cld.referral_fee)
+				else:       
+					cld.basic_charges=cstr(flt(cld.export_rate) - (flt(cld.export_rate)*(flt(cld.referral_fee)/100)))
+					cld.discount = cstr(cld.referral_fee) 
+				#cld.discount=cstr(round(flt(cld.referral_fee)/flt(cld.export_rate)*100,2))
+			
+			cld.description=srv['study_detials']	
+			cld.qty=1
 
 	def on_submit(self):
 		if cint(self.doc.update_stock) == 1:			
@@ -99,6 +146,66 @@ class DocType(SellingController):
 		self.update_c_form()
 		self.update_time_log_batch(self.doc.name)
 		self.convert_to_recurring()
+		self.set_flag()
+		sum_physician_amt=0
+		sum_patient_amt=0
+		referrer={}
+		referrer1={}
+
+		for s in getlist(self.doclist,'entries'):
+			if s.item_code:
+				bin_qty=webnotes.conn.sql("select actual_qty from tabBin where item_code='"+s.item_code+"' and warehouse='"+s.warehouse+"'",as_list=1)
+				if bin_qty:
+					bin_amt=flt(bin_qty[0][0])-flt(s.qty)
+				else:
+					bin_amt=flt(s.qty)
+				a=webnotes.conn.sql("update tabBin set actual_qty="+cstr(bin_amt)+" where item_code='"+s.item_code+"'  and warehouse='"+s.warehouse+"'")
+				stl=Document('Stock Ledger Entry')	
+				stl.actual_qty=cstr(0-flt(s.qty))
+				stl.item_code=s.item_code
+				stl.warehouse=s.warehouse
+				stl.save()
+				
+			if s.referrer_name:
+				check=webnotes.conn.sql("select salutation from tabLead where name='"+s.referrer_name+"'",as_list=1)
+				if check[0][0]=='Dr.':
+					sum_physician_amt = 0.0
+					if s.referrer_physician_credit_to:
+						if not cstr(s.referrer_physician_credit_to) in referrer:
+							referrer[cstr(s.referrer_physician_credit_to)] = 0.0
+					webnotes.errprint(referrer)
+					update_flag=webnotes.conn.sql("update `tabEncounter` set is_invoiced='True' where name='%s'"%(s.encounter_id))
+					if not self.doc.lump_sum_payment:
+						if s.referral_rule == "Percent": 
+							sum_physician_amt=flt(sum_physician_amt) + (flt(s.export_rate)*(flt(s.referral_fee)/100))	
+						else:
+							sum_physician_amt=flt(sum_physician_amt)+flt(s.referral_fee)
+						if s.referrer_physician_credit_to and s.referral_fee:
+							referrer[s.referrer_physician_credit_to] = flt(referrer[s.referrer_physician_credit_to])+sum_physician_amt
+						if s.referrer_physician_debit_to:
+							referrer1[s.referrer_physician_credit_to] = s.referrer_physician_debit_to
+
+		if self.doc.lump_sum_payment == '1':
+			sum_physician_amt = self.doc.amount
+
+		
+		amt=0
+		for e in getlist(self.doclist,'advance_adjustment_details'):
+			if e.allocated_amount:
+				amt=amt+flt(e.allocated_amount)
+	
+		outstanding_amount=flt(self.doc.patient_amount)-flt(self.doc.paid_amount_data)-flt(amt)
+
+		w=webnotes.conn.sql("update `tabSales Invoice` set outstanding_amount='"+cstr(outstanding_amount)+"' where name='"+self.doc.name+"'")
+			
+		for key in referrer:	
+			self.make_JV(referrer[key],key,referrer1[key],self.doc.company)
+
+		self.make_JV1(self.doc.paid_amount_data,self.doc.debit_to,self.doc.patient_credit_to,self.doc.company)
+		
+
+	def set_flag(self):
+		webnotes.errprint(ids)
 
 	def before_cancel(self):
 		self.update_time_log_batch(None)
@@ -215,6 +322,25 @@ class DocType(SellingController):
 			if self.doc.charge and not len(self.doclist.get({"parentfield": "other_charges"})):
 				self.set_taxes("other_charges", "charge")
 
+	def get_referrer_account(self,referrer_name):
+		webnotes.errprint(self.referrer_name)
+		if referrer_name:
+			acc_head = webnotes.conn.sql("""select name, credit_days from `tabAccount` 
+				where (name = %s or (master_name = %s and master_type = 'Lead')) 
+				and docstatus != 2 and company = %s""", 
+				(cstr(referrer_name) + " - " + self.company_abbr, 
+				referrer_name, self.doc.company),debug=1)
+		
+			if acc_head and acc_head[0][0]:
+				referrer_physician_credit_to = acc_head[0][0]
+				
+			elif not acc_head:
+				msgprint("%s does not have an Account Head in %s. \
+					You must first create it from the Supplier Master" % \
+					(self.doc.referrer_name, self.doc.company))
+		return referrer_physician_credit_to
+		
+
 	def get_customer_account(self):
 		"""Get Account Head to which amount needs to be Debited based on Customer"""
 		if not self.doc.company:
@@ -313,12 +439,13 @@ class DocType(SellingController):
 
 
 	def validate_fixed_asset_account(self):
-		"""Validate Fixed Asset Account and whether Income Account Entered Exists"""
-		for d in getlist(self.doclist,'entries'):
+	        """Validate Fixed Asset Account and whether Income Account Entered Exists"""
+	        for d in getlist(self.doclist,'entries'):
 			item = webnotes.conn.sql("select name,is_asset_item,is_sales_item from `tabItem` where name = '%s' and (ifnull(end_of_life,'')='' or end_of_life = '0000-00-00' or end_of_life >	now())"% d.item_code)
+			webnotes.errprint(d.income_account)
 			acc =	webnotes.conn.sql("select account_type from `tabAccount` where name = '%s' and docstatus != 2" % d.income_account)
 			if not acc:
-				msgprint("Account: "+d.income_account+" does not exist in the system")
+				msgprint("Account: "+cstr(d.income_account)+" does not exist in the system")
 				raise Exception
 			elif item and item[0][1] == 'Yes' and not acc[0][0] == 'Fixed Asset Account':
 				msgprint("Please select income head with account type 'Fixed Asset Account' as Item %s is an asset item" % d.item_code)
@@ -456,6 +583,7 @@ class DocType(SellingController):
 		return w
 
 	def on_update(self):
+		#self.set_flag()
 		if cint(self.doc.update_stock) == 1:
 			# Set default warehouse from pos setting
 			if cint(self.doc.is_pos) == 1:
@@ -481,7 +609,59 @@ class DocType(SellingController):
 					webnotes.msgprint("Note: Payment Entry will not be created since 'Cash/Bank Account' was not specified.")
 		else:
 			webnotes.conn.set(self.doc,'paid_amount',0)
+
+
+	def make_JV(self,amount,referrer_physician_credit_to,referrer_physician_debit_to,company):
 		
+		jv=Document('Journal Voucher')
+		jv.voucher_type='Bank Voucher'
+		jv.posting_date=nowdate()
+		jv.user_remark = 'Referrals Payment against bill '+ self.doc.name
+		jv.fiscal_year = '2013-14'
+		jv.total_credit = jv.total_debit = amount
+		jv.company = company
+		jv.against_bill = self.doc.name
+		jv.save()
+
+		jvd = Document('Journal Voucher Detail')
+		jvd.account = referrer_physician_credit_to
+		jvd.debit =  amount
+		jvd.parent = jv.name
+		jvd.save()
+
+		jvd1 = Document('Journal Voucher Detail')
+		jvd1.account = referrer_physician_debit_to
+		jvd1.credit = amount
+		jvd1.parent = jv.name
+		jvd1.save()
+
+	def make_JV1(self,sum_patient_amt,debit_to,patient_credit_to,company):
+		jv=Document('Journal Voucher')
+                jv.voucher_type='Bank Voucher'
+                jv.posting_date=nowdate()
+                jv.user_remark ='Payment Entry against '+self.doc.name
+                jv.fiscal_year = '2013-14'
+                jv.total_credit = jv.total_debit = sum_patient_amt
+                jv.company = company
+		jv.against_bill = self.doc.name
+                jv.save()
+
+                jvd = Document('Journal Voucher Detail')
+                jvd.account = debit_to
+                jvd.credit =  sum_patient_amt
+		jvd.against_invoice=self.doc.name
+                jvd.parent = jv.name
+                jvd.save()
+
+                jvd1 = Document('Journal Voucher Detail')
+                jvd1.account = patient_credit_to
+                jvd1.debit = sum_patient_amt
+                jvd1.parent = jv.name
+                jvd1.save()
+	
+			
+		
+
 	def check_prev_docstatus(self):
 		for d in getlist(self.doclist,'entries'):
 			if d.sales_order:
@@ -547,7 +727,7 @@ class DocType(SellingController):
 				self.get_gl_dict({
 					"account": self.doc.debit_to,
 					"against": self.doc.against_income_account,
-					"debit": self.doc.grand_total,
+					"debit": self.doc.patient_amount,
 					"remarks": self.doc.remarks,
 					"against_voucher": self.doc.name,
 					"against_voucher_type": self.doc.doctype,
@@ -570,12 +750,13 @@ class DocType(SellingController):
 	def make_item_gl_entries(self, gl_entries):			
 		# income account gl entries	
 		for item in self.doclist.get({"parentfield": "entries"}):
+			webnotes.errprint(['in make_item_gl_entries',item.amount,item])
 			if flt(item.amount):
 				gl_entries.append(
 					self.get_gl_dict({
 						"account": item.income_account,
 						"against": self.doc.debit_to,
-						"credit": item.amount,
+						"credit": item.basic_charges,
 						"remarks": self.doc.remarks,
 						"cost_center": item.cost_center
 					})
@@ -920,6 +1101,14 @@ def get_income_account(doctype, txt, searchfield, start, page_len, filters):
 				and tabAccount.%(key)s LIKE '%(txt)s'
 				%(mcond)s""" % {'company': filters['company'], 'key': searchfield, 
 			'txt': "%%%s%%" % txt, 'mcond':get_match_cond(doctype, searchfield)})
+
+
+@webnotes.whitelist()
+def get_values_amt():
+	rate=webnotes.form_dict.get('export_rate')
+	disc=webnotes.form_dict.get('discount')
+	return cstr(flt(rate)-flt(flt(rate)*flt(disc)/100))
+
 
 
 @webnotes.whitelist()

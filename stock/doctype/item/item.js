@@ -19,7 +19,53 @@ cur_frm.cscript.refresh = function(doc) {
 		cur_frm.toggle_enable(['has_serial_no', 'is_stock_item', 'valuation_method'],
 			doc.__sle_exists=="exists" ? false : true);
 	}
+	setTimeout(function(){
+                        for (var key in a)
+                        {
+                                $('button[data-fieldname='+key+']').css("width","200");
+                        }
+
+                },10);
 }
+
+var a={"name_data":". Name and Description","inventory_data":". Inventory","item_tax_data":". Item Tax"};
+
+
+cur_frm.cscript.name_data=function(doc,cdt,cdn){
+make_linking('name_data')
+
+}
+
+
+function make_linking(show_key){
+
+                for (var key in a)
+                {
+                        console.log("hi")
+                        $('button[data-fieldname='+key+']').css("width","200");
+                        if(key==show_key)
+                        {
+                                $(".row:contains('"+a[key]+"')").show()
+                        }
+                        else
+                        {
+                                $(".row:contains('"+a[key]+"')").hide()
+                        }
+                }
+
+        }
+
+cur_frm.cscript.inventory_data=function(doc,cdt,cdn){
+make_linking('inventory_data')
+
+}
+
+cur_frm.cscript.item_tax_data=function(doc,cdt,cdn){
+
+make_linking('item_tax_data')
+}
+
+
 
 cur_frm.cscript.make_dashboard = function() {
 	cur_frm.dashboard.reset();

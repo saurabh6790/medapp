@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-21 16:16:39", 
   "docstatus": 0, 
-  "modified": "2013-11-22 17:15:27", 
+  "modified": "2014-01-25 16:51:28", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -293,12 +293,25 @@
   "doctype": "DocField", 
   "fieldname": "net_total_import", 
   "fieldtype": "Currency", 
+  "hidden": 1, 
   "label": "Net Total", 
   "oldfieldname": "net_total_import", 
   "oldfieldtype": "Currency", 
   "options": "currency", 
   "print_hide": 0, 
   "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "total_amount", 
+  "fieldtype": "Data", 
+  "label": "Total Patient Amount"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "doctor_amount", 
+  "fieldtype": "Data", 
+  "label": "Total Doctor Amount"
  }, 
  {
   "doctype": "DocField", 

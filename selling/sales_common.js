@@ -48,7 +48,7 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 
 		if(this.frm.fields_dict.selling_price_list) {
 			this.frm.set_query("selling_price_list", function() {
-				return { filters: { buying_or_selling: "Selling" } };
+				return { filters: { buying_or_selling: "Billing" } };
 			});
 		}
 			
@@ -385,12 +385,19 @@ erpnext.selling.SellingController = erpnext.TransactionController.extend({
 	
 	calculate_net_total: function() {
 		var me = this;
-
 		this.frm.doc.net_total = this.frm.doc.net_total_export = 0.0;
 		$.each(this.frm.item_doclist, function(i, item) {
 			me.frm.doc.net_total += item.amount;
 			me.frm.doc.net_total_export += item.export_amount;
 		});
+		var amt = 0.0;
+		if(this.frm.doc.discount_in_percent){
+			amt = flt(this.frm.doc.net_total)*(flt(this.frm.doc.discount_in_percent)/100)
+		}
+		else{
+			amt = flt(this.frm.doc.discount_as_amount)
+		}
+		this.frm.doc.net_total_export = flt(this.frm.doc.net_total_export) - amt;
 		
 		wn.model.round_floats_in(this.frm.doc, ["net_total", "net_total_export"]);
 	},
