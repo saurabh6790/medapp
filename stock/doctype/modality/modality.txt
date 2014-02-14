@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-31 10:46:00", 
   "docstatus": 0, 
-  "modified": "2014-02-01 21:00:45", 
+  "modified": "2014-02-14 12:14:09", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -56,11 +56,30 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "ae_title", 
+  "fieldtype": "Data", 
+  "label": "AE Title"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "scheduled_station_name", 
+  "fieldtype": "Data", 
+  "label": "Scheduled Station Name"
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "active", 
   "fieldtype": "Select", 
   "label": "Active", 
   "options": "\nYes\nNo", 
   "reqd": 1
+ }, 
+ {
+  "description": "Entered time will considered as in minutes ", 
+  "doctype": "DocField", 
+  "fieldname": "time_required", 
+  "fieldtype": "Data", 
+  "label": "Time Required"
  }, 
  {
   "doctype": "DocPerm"

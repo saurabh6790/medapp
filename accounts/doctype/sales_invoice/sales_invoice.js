@@ -297,6 +297,38 @@ cur_frm.cscript.hide_fields = function(doc) {
 	cur_frm.refresh_fields();
 }
 
+cur_frm.cscript.advance_entry = function(doc, dt ,dn) {
+	var d = new wn.ui.Dialog({
+		title:wn._('New Account'),
+		fields: [
+			{fieldtype:'Data', fieldname:'advance_amount', label:wn._('Advance Amount'), reqd:true, 
+				description: wn._("Enter Advance Amount")+
+				wn._("Enter Advance Amount")},
+			{fieldtype:'Button', fieldname:'create_new', label:wn._('Create Advance Entry') }
+		]
+	})
+	var fd = d.fields_dict;
+	$(fd.create_new.input).click(function() {
+			var btn = this;
+			$(btn).set_working();
+			var advance_details  = d.get_values();
+			if(!advance_details) return;
+			advance_details['customer_name'] = doc.customer_name
+			advance_details['debit_to'] = doc.debit_to
+			advance_details['company'] = doc.company		
+			return wn.call({
+				args: advance_details,
+				method:'accounts.utils.create_advance_entry',
+				callback: function(r) {
+					$(btn).done_working();
+					d.hide();
+				}
+			});
+		});
+
+	d.show();
+}
+
 cur_frm.cscript.mode_of_payment = function(doc, cdt, cdn) {
 	get_server_fields('child_entry','','',doc,cdt,cdn,1,function(r,rt) { refresh_field("entries");refresh_field('id')});
 	cur_frm.cscript.calculate_amt(doc,cdt,cdn)

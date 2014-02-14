@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-24 19:29:05", 
   "docstatus": 0, 
-  "modified": "2014-02-02 21:16:05", 
+  "modified": "2014-02-12 11:36:22", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -111,7 +111,7 @@
   "fieldname": "customer", 
   "fieldtype": "Link", 
   "hidden": 0, 
-  "label": "Customer", 
+  "label": "Patient", 
   "no_copy": 0, 
   "oldfieldname": "customer", 
   "oldfieldtype": "Link", 
@@ -239,6 +239,12 @@
   "read_only": 0, 
   "reqd": 1, 
   "search_index": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "advance_entry", 
+  "fieldtype": "Button", 
+  "label": "Advance Entry"
  }, 
  {
   "doctype": "DocField", 

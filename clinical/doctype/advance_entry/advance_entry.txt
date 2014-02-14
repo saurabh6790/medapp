@@ -1,0 +1,78 @@
+[
+ {
+  "creation": "2014-02-12 11:49:02", 
+  "docstatus": 0, 
+  "modified": "2014-02-12 14:35:06", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "Adv.########", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "issingle": 0, 
+  "module": "Clinical", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Advance Entry", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "amend": 0, 
+  "cancel": 0, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Advance Entry", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Advance Entry"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_id", 
+  "fieldtype": "Link", 
+  "label": "Patient Id", 
+  "options": "Customer", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "advance_amount", 
+  "fieldtype": "Currency", 
+  "label": "Advance Amount", 
+  "reqd": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "company", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Company", 
+  "options": "Company"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "fiscal_year", 
+  "fieldtype": "Link", 
+  "hidden": 1, 
+  "label": "Fiscal Year", 
+  "options": "Fiscal Year"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

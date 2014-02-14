@@ -8,10 +8,19 @@ cur_frm.fields_dict.radiologist_name.get_query = function(doc,cdt,cdn) {
 }
 cur_frm.cscript.onload = function(doc, cdt, cdn) {
 	cur_frm.cscript.referrer_name(doc)
+	// alert(this.frm.doc.start_time)
+	if(this.frm.doc.encounter){
+		wn.call({
+			method: "selling.doctype.patient_encounter_entry.patient_encounter_entry.set_slot",
+			args:{modality:this.frm.doc.encounter, start_time:this.frm.doc.start_time, end_time:this.frm.doc.end_time},
+			callback: function(r) {
+				cur_frm.set_value("start_time", r.message[0]);
+				cur_frm.set_value("end_time", r.message[1]);
+			}
+		})
+	}
 	if(this.frm.doc.__islocal) {
 		doc.encounter_date=get_today();
-		
-
 	}
 }
 /*cur_frm.cscript.refresh = function(doc){
@@ -55,38 +64,30 @@ make_linking('disc')
 }
 
 function make_linking(show_key){
-		
-                for (var key in a)
-                {
-                        console.log(key)
-                        $('button[data-fieldname='+key+']').css("width","200");
-                        if(key==show_key)
-                        {
-				if(key=='encounter_data')
-				{
-					$(".row:contains('"+a[key]+"')").show();
-					$(".row:contains('. Other Info')").show()
-					$(".row:contains('. Alerts')").show()
-					$(".row:contains('. Procedure')").show()
-					$(".row:contains('. Send Report By')").show()
-				}
-				else
-				{
-                                	$(".row:contains('"+a[key]+"')").show();
-					$(".row:contains('. Other Info')").hide()
-                                        $(".row:contains('. Alerts')").hide()
-                                        $(".row:contains('. Procedure')").hide()
-					$(".row:contains('. Send Report By')").hide()
-				}
-                        }
-                        else
-                        {	
-                                $(".row:contains('"+a[key]+"')").hide()
-
-                        }
-                }
-
-        }
+	for (var key in a){
+		console.log(key)
+		$('button[data-fieldname='+key+']').css("width","200");
+		if(key==show_key){
+			if(key=='encounter_data'){
+				$(".row:contains('"+a[key]+"')").show();
+				$(".row:contains('. Other Info')").show()
+				$(".row:contains('. Alerts')").show()
+				$(".row:contains('. Procedure')").show()
+				$(".row:contains('. Send Report/Image By')").show()
+			}
+			else{
+	        	$(".row:contains('"+a[key]+"')").show();
+				$(".row:contains('. Other Info')").hide()
+				$(".row:contains('. Alerts')").hide()
+				$(".row:contains('. Procedure')").hide()
+				$(".row:contains('. Send Report/Image By')").hide()
+			}
+		}
+		else{	
+	    $(".row:contains('"+a[key]+"')").hide()
+		}
+	}
+}
 
 cur_frm.cscript.patient_data=function(doc,cdt,cdn){
 make_linking('patient_data')
@@ -113,8 +114,8 @@ cur_frm.cscript.refresh = function(doc, cdt, cdn){
                         }
 
                 },10);
-	
-	
+
+
 
 }
 
@@ -130,7 +131,7 @@ cur_frm.cscript['Make Bill'] = function() {
   
         var d1 = wn.model.add_child(si, 'Sales Invoice Item', 'entries');
         d1.item_code = cur_frm.doc.encounter
-	
+
 	loaddoc('Sales Invoice', si.name);
 }
 
@@ -153,4 +154,3 @@ cur_frm.cscript.referrer_name = function(doc){
 		hide_field('discount_as_amount');
 	}
 }
-

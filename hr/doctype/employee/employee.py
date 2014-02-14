@@ -20,7 +20,7 @@ class DocType:
 			webnotes.throw(_("Please setup Employee Naming System in Human Resource > HR Settings"))
 		else:
 			if naming_method=='Naming Series':
-				self.doc.name = make_autoname(self.doc.naming_series + '.####')
+				self.doc.name = make_autoname(self.doc.employee_name+' '+self.doc.naming_series + '.####')
 			elif naming_method=='Employee Number':
 				self.doc.name = self.doc.employee_number
 

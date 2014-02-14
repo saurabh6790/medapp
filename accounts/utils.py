@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 
 import webnotes
 from webnotes.utils import nowdate, cstr, flt, now, getdate, add_months
-from webnotes.model.doc import addchild
+from webnotes.model.doc import addchild, Document
 from webnotes import msgprint, _
 from webnotes.utils import formatdate
 from utilities import build_filter_conditions
@@ -379,3 +379,29 @@ def get_account_for(account_for_doctype, account_for):
 		
 	return webnotes.conn.get_value("Account", {account_for_field: account_for_doctype, 
 		"master_name": account_for})
+
+@webnotes.whitelist()
+def create_advance_entry(advance_amount, customer_name, debit_to, company):
+	jv = Document('Journal Voucher')
+	jv.voucher_type = 'Cash Voucher'
+	jv.user_remark = 'Advance Payment'
+	jv.fiscal_year = webnotes.conn.get_value('Global Defaults',None,'current_fiscal_year')
+	jv.company = company
+	jv.posting_date = nowdate()
+	jv.docstatus = 1 
+	jv.save()
+
+	chld1 = Document('Journal Voucher Detail')
+	chld1.parent = jv.name
+	chld1.account = debit_to
+	chld1.cost_center = webnotes.conn.get_value('Company',company,'cost_center')
+	chld1.credit = advance_amount
+	chld1.is_advance = 'Yes'
+	chld1.save()
+
+	chld2 = Document('Journal Voucher Detail')
+	chld2.parent = jv.name
+	chld2.account = webnotes.conn.get_value('Company',company,'default_cash_account')
+	chld2.cost_center = webnotes.conn.get_value('Company',company,'cost_center')
+	chld2.debit = advance_amount
+	chld2.save()

@@ -9,12 +9,13 @@ import webnotes
 from webnotes.utils import cstr, cint, flt, comma_or, nowdate, get_base_path,today
 import barcode
 import os
+from webnotes import msgprint, _
 from datetime import date
 from webnotes.model.doc import Document, make_autoname
 from  selling.doctype.customer.customer import DocType
 from selling.doctype.lead.lead import create_contact
 
-class DocType(DocType):
+class DocType:
 	def __init__(self, d, dl):
 		self.doc, self.doclist = d, dl
 	
@@ -72,18 +73,19 @@ class DocType(DocType):
                 #lag = webnotes.conn.sql("select ifnull(name,'') from tabProfile where name='"+self.doc.email+"'",as_list=1,debug=1)
 		self.check_valid_priority()
 		
-		check_name=webnotes.conn.sql("select name from `tabCustomer` where name='"+self.doc.name+"'",as_list=1)
+		check_name=webnotes.conn.sql("select name from `tabCustomer` where name='"+self.doc.customer_name+' '+self.doc.name+"'",as_list=1)
 		webnotes.errprint(check_name)
                         
                 if not check_name:
                         self.doc.master_type = "Patient Register"
-                        self.create_account_head()
-                        self.create_customer()             
+			cust = self.create_customer()
+                        self.create_account_head(cust)
+                        #self.create_customer()             
 
                 if self.doc.flag=='false':
                         self.create_profile()
                         self.generate_barcode()
-                        self.validate()
+                        #self.validate()
 			
 			self.create_new_contact()
 			a=webnotes.conn.sql("select name from `tabEncounter` where parent='"+self.doc.name+"'",as_list=1)        
@@ -128,11 +130,37 @@ class DocType(DocType):
                 webnotes.errprint('customer creation starts')
                 from webnotes.model.doc import Document
                 d = Document('Customer')
-                d.customer_name = self.doc.name
+                d.customer_name = self.doc.customer_name+' '+self.doc.name
                 d.gender = self.doc.gender
                 d.full_name = self.doc.customer_name
                 d.save()
-                webnotes.errprint(d.name)
+                return d.name
+
+        def create_account_head(self, cust):
+                if self.doc.company :
+                        abbr = webnotes.conn.get_value('Company', self.doc.company, 'abbr')
+
+                        if not webnotes.conn.sql("select name from tabAccount where name=%s", (self.doc.name + " - " + abbr)):
+                                ac_bean = webnotes.bean({
+                                        "doctype": "Account",
+                                        'account_name': cust,
+                                        'parent_account': "Accounts Payable - " + abbr,
+                                        'group_or_ledger':'Ledger',
+                                        'company': self.doc.company,
+                                        'account_type': '',
+                                        'tax_rate': '0',
+                                        'master_type': 'Patient Register',
+                                        'master_name': self.doc.name,
+                                        "freeze_account": "No"
+                                })
+                                ac_bean.ignore_permissions = True
+                                ac_bean.insert()
+
+                                webnotes.msgprint(_("Created Account Head: ") + ac_bean.doc.name)
+                else :
+                        webnotes.msgprint("Please select Company under which you want to create account head")
+
+
 
         def create_profile(self):
                 profile = webnotes.bean({

@@ -197,7 +197,8 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 		outstanding_amount=flt(self.doc.patient_amount)-flt(self.doc.paid_amount_data)-flt(amt)
 
 		w=webnotes.conn.sql("update `tabSales Invoice` set outstanding_amount='"+cstr(outstanding_amount)+"' where name='"+self.doc.name+"'")
-			
+		# webnotes.errprint(referrer)
+		# webnotes.errprint(referrer1)
 		for key in referrer:	
 			self.make_JV(referrer[key],key,referrer1[key],self.doc.company)
 

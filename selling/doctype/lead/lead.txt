@@ -2,7 +2,7 @@
  {
   "creation": "2013-04-10 11:45:37", 
   "docstatus": 0, 
-  "modified": "2014-02-02 20:28:46", 
+  "modified": "2014-02-11 15:25:22", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -389,7 +389,7 @@
   "doctype": "DocField", 
   "fieldname": "company", 
   "fieldtype": "Link", 
-  "hidden": 1, 
+  "hidden": 0, 
   "label": "Company", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 

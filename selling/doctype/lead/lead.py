@@ -6,13 +6,19 @@ import webnotes
 from webnotes import _
 from webnotes.utils import cstr, validate_email_add, cint, extract_email_id
 from webnotes import session, msgprint
-
+from webnotes.model.doc import Document, make_autoname
 	
 from controllers.selling_controller import SellingController
 
 #sql = webnotes.conn.sql
 
 class DocType(SellingController):
+
+	def autoname(self):
+                
+
+                self.doc.name = make_autoname(self.doc.lead_name+' REF.#####')
+
 	def __init__(self, doc, doclist):
 		self.doc = doc
 		self.doclist = doclist
@@ -52,7 +58,8 @@ class DocType(SellingController):
 		details['mobile_no'] = self.doc.mobile_no
 		details['doc'] ='Lead'
 		details['link']=self.doc.name
-		create_contact(details)
+		if not webnotes.conn.get_value('Contact',self.doc.lead_name,'name'):
+			create_contact(details)
 
 	def create_account_head(self):
 		if self.doc.company :

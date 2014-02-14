@@ -16,7 +16,7 @@ def execute(filters=None):
 	#for r in rs:
 	#	tt=cstr(r)
 	#	webnotes.errprint(tt)
-	query = "select name,start_time,end_time,modality,study,active from tabSlots where name not in (SELECT slot FROM `tabSlot Child` where status='Confirm' and start_time not like (date_format(sysdate(),'%Y-%m-%d %H:%i')))"
+	query = "select name,start_time,end_time,modality,study,active from tabSlots where name not in (SELECT slot FROM `tabSlot Child` where status='Confirm' and start_time in (date_format(sysdate(),'%Y-%m-%d %H:%i')))"
 	
 	webnotes.errprint(query)
 	res=webnotes.conn.sql(query,as_list=1)
