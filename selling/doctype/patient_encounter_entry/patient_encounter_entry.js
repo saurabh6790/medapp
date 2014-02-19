@@ -120,19 +120,46 @@ cur_frm.cscript.refresh = function(doc, cdt, cdn){
 }
 
 cur_frm.cscript['Make Bill'] = function() {
-        var doc = cur_frm.doc
-        var si = wn.model.make_new_doc_and_get_name('Sales Invoice');
-        si = locals['Sales Invoice'][si];
-        si.customer = cur_frm.doc.patient;
-        si.posting_date = dateutil.obj_to_str(new Date());
-	si.discount_as_amount = cur_frm.doc.discount_as_amount;
-	si.discount_in_percent = cur_frm.doc.discount_in_percent;
-	si.discount_type = cur_frm.doc.discount_type;
-  
-        var d1 = wn.model.add_child(si, 'Sales Invoice Item', 'entries');
-        d1.item_code = cur_frm.doc.encounter
+	var doc = cur_frm.doc
+	if(doc.patient)
+        {
+                patient=doc.patient
+        }
+        else
+        {
+                patient=doc.first_name
+        }
 
-	loaddoc('Sales Invoice', si.name);
+        return $c('runserverobj', args={'method':'child_entry', 'arg':patient , 'docs': wn.model.compress(make_doclist(doc.doctype, doc.name))}, function(r,rt) {
+                        var si = wn.model.make_new_doc_and_get_name('Sales Invoice');
+                        si = locals['Sales Invoice'][si];
+                        si.customer = cur_frm.doc.patient;
+                        si.posting_date = dateutil.obj_to_str(new Date());
+                        si.discount_as_amount = cur_frm.doc.discount_as_amount;
+                        si.discount_in_percent = cur_frm.doc.discount_in_percent;
+                        si.discount_type = cur_frm.doc.discount_type;
+
+                        for(i=0;i<(r.message).length;i++)
+                        {
+                                var d1 = wn.model.add_child(si, 'Sales Invoice Item', 'entries');
+                                d1.study=r.message[i]['study']
+                                d1.modality=r.message[i]['modality']
+                                d1.description=r.message[i]['study_detials']
+                                d1.referrer_name = r.message[i]['referrer_name']
+                                d1.referrer_physician_credit_to=r.message[i]['referrer_physician_credit_to']
+                                d1.export_rate=r.message[i]['export_rate']
+                                d1.basic_charges=r.message[i]['basic_charges']
+                                d1.referral_rule=r.message[i]['referral_rule']
+                                d1.discount_type=r.message[i]['discount_type']
+                                d1.discount_in_amt=r.message[i]['discount_in_amt']
+                                d1.referral_fee=r.message[i]['referral_fee']
+                                d1.discount=r.message[i]['dis_value']
+                                si.patient_amount = r.message[i]['amount']
+                                d1.encounter_id = r.message[i]['name']
+                        }
+                        loaddoc('Sales Invoice', si.name);
+                });
+
 }
 
 /*cur_frm.cscript.checked_in = function(doc,dt,dn){

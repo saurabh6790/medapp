@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-31 12:25:24", 
   "docstatus": 0, 
-  "modified": "2014-02-03 10:06:44", 
+  "modified": "2014-02-19 12:04:06", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -123,6 +123,14 @@
   "fieldtype": "Check", 
   "label": "Is local", 
   "permlevel": 0
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_local_id", 
+  "fieldtype": "Data", 
+  "label": "Patient Local Id", 
+  "permlevel": 0, 
+  "read_only": 1
  }, 
  {
   "doctype": "DocField", 

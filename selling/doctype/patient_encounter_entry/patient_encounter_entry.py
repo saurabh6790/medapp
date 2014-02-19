@@ -135,12 +135,14 @@ class DocType():
                 return d.name
 
         def child_entry(self,patient_data):  
-                services = webnotes.conn.sql(""" SELECT foo.*, case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_fee from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""') else (select ifnull(referral_fee,0) from tabStudy where name=foo.study) end as referral_fee,
-case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_rule from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent='"""+self.doc.referrer+"""') else (select referral_rule from tabStudy where name=foo.study) end as referral_rule
+                services = webnotes.conn.sql(""" SELECT foo.*, case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_fee from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name) else (select ifnull(referral_fee,0) from tabStudy where name=foo.study) end as referral_fee,
+case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_rule from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name) else (select referral_rule from tabStudy where name=foo.study) end as referral_rule
         FROM ( SELECT s.study_aim AS study,s.modality, e.encounter,e.referrer_name, e.name, s.discount_type,s.study_detials,s.discounted_value as dis_value FROM `tabEncounter` e, tabStudy s WHERE ifnull(e.is_invoiced,'False')='False' AND 
-e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1)
+e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
                 
                 patient_data_new=[]
+                webnotes.errprint(services)
+                tot_amt = 0.0
                 for srv in services:
                                 
                         # cld = addchild(self.doc, 'entries', 'Sales Invoice Item',self.doclist)          
@@ -148,12 +150,11 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1)
                         # cld.modality = srv['modality']
                         # cld.encounter_id = srv['name']
                         # cld.discount_type = srv['discount_type']
-                        export_rate=webnotes.conn.sql("""select ref_rate from `tabItem Price` 
-                                        where price_list = '%s' and study = '%s'"""%(self.doc.selling_price_list,srv['study']),debug=1)
+                        export_rate=webnotes.conn.sql("""select study_fees from tabStudy where name = '%s' """%srv['study'],as_list=1,debug=1)
                         srv['export_rate'] = export_rate[0][0] if export_rate else 0
                         # cld.referrer_name=srv['referrer_name']
                         if srv['referrer_name']:
-                                acc_head = webnotes.conn.sql("""select name from `tabAccount` where name='%s'"""%(srv['referrer_name']),debug=1)
+                                acc_head = webnotes.conn.sql("""select name from `tabAccount` where master_name='%s'"""%(srv['referrer_name']),debug=1)
                                 if acc_head and acc_head[0][0]:
                                         srv['referrer_physician_credit_to'] = acc_head[0][0]
                                 
@@ -174,7 +175,10 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1)
                         
                         # cld.description=srv['study_detials']    
                         # cld.qty=1
+                        tot_amt = flt(srv['basic_charges']) + tot_amt
+                        srv['amount'] = tot_amt
                         patient_data_new.append(srv)
+                webnotes.errprint(patient_data_new)
                 return patient_data_new
 
         def make_child_entry(self, patient_id=None):
@@ -251,7 +255,7 @@ def get_events(start, end, doctype,op,filters=None):
                                 conditions += " and " + key + ' = "' + filters[key].replace('"', '\"') + '"'
         
         data = webnotes.conn.sql("""select name, start_time, end_time, 
-                study, encounter from `tabPatient Encounter Entry`
+                study, status,encounter from `tabPatient Encounter Entry`
                 where  ((start_time between '%(start)s' and '%(end)s') \
                         or (end_time between '%(start)s' and '%(end)s')) %(cnd)s 
                 %(conditions)s""" % {
@@ -270,7 +274,9 @@ def get_modality():
 @webnotes.whitelist()
 def set_slot(modality, start_time, end_time):
         time = get_modality_time(modality)
-        end_time = calc_end_time(start_time,time)
+        if cint(time) > 30:
+                start_time = calc_start_time(start_time, modality)
+        end_time = calc_end_time(cstr(start_time),time)
         start_time, end_time = check_availability(modality, start_time, end_time, time)
         
         return start_time, end_time
@@ -278,14 +284,14 @@ def set_slot(modality, start_time, end_time):
 def check_availability(modality, start_time, end_time, time):
         webnotes.errprint(start_time)
         count = webnotes.conn.sql("""select sum(case when status = 'Waiting' then 2 when status = 'Confirmed' then 1 else 0 end) as status from `tabPatient Encounter Entry` 
-                where encounter = '%(encounter)s' and start_time = '%(start_time)s' 
-                        and end_time = '%(end_time)s'
+                where encounter = '%(encounter)s' and start_time = '%(start_time)s' and end_time = '%(end_time)s'
                 """%{'encounter':modality, 'start_time':start_time, 'end_time':end_time},as_list=1,debug=1)
 
         if count[0][0] in (1, 4, 3):
                 webnotes.errprint("if loop")
                 start_time = end_time
                 end_time = calc_end_time(cstr(start_time),time)
+
                 return check_availability(modality, start_time, end_time, time)
 
         else:
@@ -301,3 +307,13 @@ def calc_end_time(start_time,time):
         now = datetime.datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
         end_time = now + datetime.timedelta(minutes=cint(time))
         return end_time
+
+def calc_start_time(start_time, modality):
+        end_slot = datetime.datetime.strptime(cstr(start_time), '%Y-%m-%d %H:%M:%S') + datetime.timedelta(minutes=30)
+        start_time_list = webnotes.conn.sql("""select end_time from `tabPatient Encounter Entry` 
+                        where encounter='%(encounter)s' and end_time between '%(start_time)s' 
+                                and '%(end_slot)s'"""%{'encounter':modality, 'start_time':start_time, 'end_slot':end_slot},debug=1)
+        if start_time_list:
+                start_time = start_time_list[0][0]
+        
+        return start_time

@@ -32,8 +32,9 @@ class DocType:
 			key2 = key2.replace(key2,chr(ord(key2)+1))
 			key = key1 + key2
  			webnotes.conn.set_value("LocGlobKey", "LocGlobKey", "key", key)
+                self.doc.patient_local_id = make_autoname('A'+str(date.today().year)[-2:]+key+'.##')
 
-                self.doc.name = make_autoname('A'+str(date.today().year)[-2:]+key+'.##')
+                self.doc.name = self.doc.customer_name + ' ' + self.doc.patient_local_id
 		#if(self.doc.name):
 		#	self.doc.patient_online_id=cstr(webnotes.conn.sql("select abbr from tabCompany where name=%s", self.doc.company)[0][0])+"/"+cstr(self.doc.lab_branch)+"/"+cstr(self.doc.name)
 		dt=today()
@@ -52,8 +53,8 @@ class DocType:
 					series_set = True
 			else: en = e
 			n+=en
-		webnotes.errprint(n[3:])		
-		webnotes.errprint(ss+n[3:])
+		# webnotes.errprint(n[3:])		
+		# webnotes.errprint(ss+n[3:])
 		self.doc.patient_online_id=ss+n[3:]
 		
 
@@ -130,7 +131,7 @@ class DocType:
                 webnotes.errprint('customer creation starts')
                 from webnotes.model.doc import Document
                 d = Document('Customer')
-                d.customer_name = self.doc.customer_name+' '+self.doc.name
+                d.customer_name = self.doc.name
                 d.gender = self.doc.gender
                 d.full_name = self.doc.customer_name
                 d.save()
@@ -144,7 +145,7 @@ class DocType:
                                 ac_bean = webnotes.bean({
                                         "doctype": "Account",
                                         'account_name': cust,
-                                        'parent_account': "Accounts Payable - " + abbr,
+                                        'parent_account': "Accounts Receivable - " + abbr,
                                         'group_or_ledger':'Ledger',
                                         'company': self.doc.company,
                                         'account_type': '',

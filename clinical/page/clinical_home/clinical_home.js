@@ -45,7 +45,11 @@ wn.module_page["Clinical"] = [
                                 "label":wn._("Slot Details Report"),
                                 route: "query-report/Available%20Slot%20Details",
                                 doctype: "Slots"
-                        },                     
+                        },     
+                        {
+                                "label":wn._("Advance Payment"),
+                                doctype: "Advance Entry"
+                        },                
 
                 ]
         }/*,

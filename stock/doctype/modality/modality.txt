@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-31 10:46:00", 
   "docstatus": 0, 
-  "modified": "2014-02-14 12:14:09", 
+  "modified": "2014-02-18 20:38:37", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -58,6 +58,7 @@
   "doctype": "DocField", 
   "fieldname": "ae_title", 
   "fieldtype": "Data", 
+  "in_list_view": 1, 
   "label": "AE Title"
  }, 
  {
@@ -70,6 +71,7 @@
   "doctype": "DocField", 
   "fieldname": "active", 
   "fieldtype": "Select", 
+  "in_list_view": 1, 
   "label": "Active", 
   "options": "\nYes\nNo", 
   "reqd": 1
@@ -79,6 +81,7 @@
   "doctype": "DocField", 
   "fieldname": "time_required", 
   "fieldtype": "Data", 
+  "in_list_view": 1, 
   "label": "Time Required"
  }, 
  {
