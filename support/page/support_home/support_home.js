@@ -13,7 +13,7 @@ wn.module_page["Support"] = [
 				doctype:"Support Ticket"
 			},
 			{
-				label: wn._("Customer Issue"),
+				label: wn._("Patient Issue"),
 				description: wn._("Customer Issue against Serial No."),
 				doctype:"Customer Issue"
 			},

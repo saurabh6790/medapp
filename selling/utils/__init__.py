@@ -208,3 +208,7 @@ def apply_pos_settings(pos_settings, opts):
 		out["actual_qty"] = get_available_qty(opts.item_code, out.get("warehouse")).get("actual_qty")
 	
 	return out
+
+@webnotes.whitelist()
+def get_login():
+	webnotes.errprint("done")

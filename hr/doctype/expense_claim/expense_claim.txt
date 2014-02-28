@@ -2,7 +2,7 @@
  {
   "creation": "2013-01-10 16:34:14", 
   "docstatus": 0, 
-  "modified": "2013-09-25 11:36:11", 
+  "modified": "2014-02-28 12:06:41", 
   "modified_by": "Administrator", 
   "owner": "harshada@webnotestech.com"
  }, 
@@ -163,7 +163,7 @@
   "fieldname": "company", 
   "fieldtype": "Select", 
   "in_filter": 1, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "link:Company", 

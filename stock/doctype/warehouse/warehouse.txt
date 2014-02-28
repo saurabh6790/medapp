@@ -2,7 +2,7 @@
  {
   "creation": "2013-03-07 18:50:32", 
   "docstatus": 0, 
-  "modified": "2013-11-19 12:12:33", 
+  "modified": "2014-02-28 14:59:54", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -60,7 +60,7 @@
   "fieldname": "company", 
   "fieldtype": "Link", 
   "in_filter": 1, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "Company", 
@@ -75,15 +75,13 @@
   "fieldname": "create_account_under", 
   "fieldtype": "Link", 
   "label": "Parent Account", 
-  "options": "Account", 
-  "permlevel": 0
+  "options": "Account"
  }, 
  {
   "doctype": "DocField", 
   "fieldname": "column_break_4", 
   "fieldtype": "Section Break", 
   "label": "Allow For Users", 
-  "permlevel": 0, 
   "read_only": 0
  }, 
  {

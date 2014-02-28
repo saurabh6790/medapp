@@ -1,0 +1,31 @@
+[
+ {
+  "creation": "2014-02-28 13:23:06", 
+  "docstatus": 0, 
+  "modified": "2014-02-28 13:23:06", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "doctype": "Page", 
+  "module": "Master", 
+  "name": "__common__", 
+  "page_name": "master-page", 
+  "standard": "Yes"
+ }, 
+ {
+  "doctype": "Page Role", 
+  "name": "__common__", 
+  "parent": "master-page", 
+  "parentfield": "roles", 
+  "parenttype": "Page", 
+  "role": "Administrator"
+ }, 
+ {
+  "doctype": "Page", 
+  "name": "master-page"
+ }, 
+ {
+  "doctype": "Page Role"
+ }
+]

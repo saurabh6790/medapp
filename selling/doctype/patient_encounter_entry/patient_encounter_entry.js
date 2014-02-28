@@ -1,13 +1,15 @@
-cur_frm.add_fetch('patient', 'customer_name', 'patient_name')
+cur_frm.add_fetch('patient', 'first_name', 'patient_name')
 cur_frm.add_fetch('doctor', 'lead_name', 'doctor_name')
 cur_frm.add_fetch('referrer_name','rules','rules')
 cur_frm.add_fetch('referrer_name','value','value')
+cur_frm.add_fetch('radiologist_name', 'employee_name', 'radiologist_');
+cur_frm.add_fetch('referrer_name', 'lead_name', 'referral');
+cur_frm.add_fetch('technologist', 'employee_name', 'technologist_name');
+cur_frm.add_fetch('appointment_slot', 'start_time', 'start_time');
+cur_frm.add_fetch('appointment_slot', 'end_time', 'end_time');
 
-cur_frm.fields_dict.radiologist_name.get_query = function(doc,cdt,cdn) {
-	return{	query:"selling.doctype.patient_encounter_entry.patient_encounter_entry.get_employee"}
-}
 cur_frm.cscript.onload = function(doc, cdt, cdn) {
-	cur_frm.cscript.referrer_name(doc)
+	// cur_frm.cscript.referrer_name(doc)
 	// alert(this.frm.doc.start_time)
 	if(this.frm.doc.encounter){
 		wn.call({
@@ -26,15 +28,6 @@ cur_frm.cscript.onload = function(doc, cdt, cdn) {
 /*cur_frm.cscript.refresh = function(doc){
 	cur_frm.cscript.referrer_name(doc)
 }*/
-cur_frm.add_fetch('radiologist_name', 'employee_name', 'radiologist_');
-cur_frm.add_fetch('referrer_name', 'lead_name', 'referral');
-cur_frm.add_fetch('technologist', 'employee_name', 'technologist_name');
-cur_frm.add_fetch('appointment_slot', 'start_time', 'start_time');
-cur_frm.add_fetch('appointment_slot', 'end_time', 'end_time');
-cur_frm.get_field("technologist").get_query=function(doc,cdt,cdn)
-{
-   return "select employee from `tabEmployee` where designation= 'Technologist' "
-}
 
 cur_frm.get_field("encounter").get_query=function(doc,cdt,cdn)
 {
@@ -52,9 +45,9 @@ cur_frm.get_field("appointment_slot").get_query=function(doc,cdt,cdn){
 	return "select name from tabSlots where modality='"+doc.encounter+"' and active='Yes' and study='"+doc.study+"' and name not in (SELECT slot FROM `tabSlot Child` where status='Confirm' and start_time not like (date_format(sysdate(),'%Y-%m-%d %H:%i')))"
 }
 
-cur_frm.cscript.rules = function(doc){
-	 cur_frm.cscript.referrer_name(doc)
-}
+// cur_frm.cscript.rules = function(doc){
+// 	 cur_frm.cscript.referrer_name(doc)
+// }
 
 var a={"patient_data":". Patient Details","encounter_data":". Encounter Details","referral_fee_data":". Patient History","disc":". Notes"};
 
@@ -105,7 +98,7 @@ make_linking('encounter_data')
 }
 
 cur_frm.cscript.refresh = function(doc, cdt, cdn){
-	cur_frm.cscript.referrer_name(doc)
+	// cur_frm.cscript.referrer_name(doc)
         cur_frm.appframe.add_primary_action(wn._('Make Bill'), cur_frm.cscript['Make Bill'])
 	setTimeout(function(){
                         for (var key in a)
@@ -173,11 +166,33 @@ cur_frm.cscript['Make Bill'] = function() {
 		});
   
 }*/
-cur_frm.cscript.referrer_name = function(doc){
-	hide_field('discount_in_percent')
-	unhide_field('discount_as_amount')
-	if(doc.rules=='Percentage'){
-		unhide_field('discount_in_percent')
-		hide_field('discount_as_amount');
+cur_frm.fields_dict.referrer_name.get_query = function(doc,cdt,cdn) {
+  return{
+    query:"controllers.queries.lead_query",
+  }
+}
+
+cur_frm.fields_dict.patient.get_query = function(doc,cdt,cdn) {
+  return{
+    query:"selling.doctype.patient_encounter_entry.patient_encounter_entry.get_patient"
+  }
+}
+
+cur_frm.fields_dict.radiologist_name.get_query = function(doc,cdt,cdn) {
+	return{	
+		query:"controllers.queries.employee_query",
+		filters: {
+			'designation':'Radiologist' 
+		}
 	}
+}
+
+cur_frm.fields_dict.technologist.get_query =function(doc,cdt,cdn)
+{
+   return{
+   		query:"controllers.queries.employee_query",
+   		filters: {
+			'designation':'Technologist' 
+		}
+   	}
 }

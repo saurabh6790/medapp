@@ -2,7 +2,7 @@
  {
   "creation": "2013-04-10 11:45:37", 
   "docstatus": 0, 
-  "modified": "2014-02-11 15:25:22", 
+  "modified": "2014-02-28 12:11:02", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -390,7 +390,7 @@
   "fieldname": "company", 
   "fieldtype": "Link", 
   "hidden": 0, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "Company", 

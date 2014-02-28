@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-16 12:38:55", 
   "docstatus": 0, 
-  "modified": "2014-02-18 20:40:11", 
+  "modified": "2014-02-28 21:29:16", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -323,6 +323,7 @@
   "doctype": "DocField", 
   "fieldname": "appointment_slot", 
   "fieldtype": "Link", 
+  "hidden": 1, 
   "label": "Appointment Slot", 
   "options": "Slots"
  }, 
@@ -564,6 +565,7 @@
   "doctype": "DocField", 
   "fieldname": "encounter_template", 
   "fieldtype": "Select", 
+  "hidden": 1, 
   "label": "Encounter Template", 
   "options": "\nPatient Info"
  }, 

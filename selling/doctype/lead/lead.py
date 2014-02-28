@@ -13,12 +13,6 @@ from controllers.selling_controller import SellingController
 #sql = webnotes.conn.sql
 
 class DocType(SellingController):
-
-	def autoname(self):
-                
-
-                self.doc.name = make_autoname(self.doc.lead_name+' REF.#####')
-
 	def __init__(self, doc, doclist):
 		self.doc = doc
 		self.doclist = doclist

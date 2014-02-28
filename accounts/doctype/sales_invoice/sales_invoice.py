@@ -1157,3 +1157,7 @@ def make_delivery_note(source_name, target_doclist=None):
 	}, target_doclist, set_missing_values)
 	
 	return [d.fields for d in doclist]
+
+@webnotes.whitelist()
+def get_name():
+	print "saurabh"

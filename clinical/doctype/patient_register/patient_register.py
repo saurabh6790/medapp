@@ -34,7 +34,7 @@ class DocType:
  			webnotes.conn.set_value("LocGlobKey", "LocGlobKey", "key", key)
                 self.doc.patient_local_id = make_autoname('A'+str(date.today().year)[-2:]+key+'.##')
 
-                self.doc.name = self.doc.customer_name + ' ' + self.doc.patient_local_id
+                self.doc.name = self.doc.patient_local_id
 		#if(self.doc.name):
 		#	self.doc.patient_online_id=cstr(webnotes.conn.sql("select abbr from tabCompany where name=%s", self.doc.company)[0][0])+"/"+cstr(self.doc.lab_branch)+"/"+cstr(self.doc.name)
 		dt=today()
@@ -74,8 +74,8 @@ class DocType:
                 #lag = webnotes.conn.sql("select ifnull(name,'') from tabProfile where name='"+self.doc.email+"'",as_list=1,debug=1)
 		self.check_valid_priority()
 		
-		check_name=webnotes.conn.sql("select name from `tabCustomer` where name='"+self.doc.customer_name+' '+self.doc.name+"'",as_list=1)
-		webnotes.errprint(check_name)
+		check_name=webnotes.conn.sql("select name from `tabCustomer` where name='"+self.doc.name+"'",as_list=1,debug=1)
+		webnotes.errprint(['name',check_name])
                         
                 if not check_name:
                         self.doc.master_type = "Patient Register"
@@ -98,7 +98,7 @@ class DocType:
 
 	def create_new_contact(self):
                 details = {}
-                details['first_name'] = self.doc.customer_name
+                details['first_name'] = self.doc.first_name
                 details['email_id'] = self.doc.email or ''
                 details['mobile_no'] = self.doc.mobile or ''
 		details['link'] = self.doc.name
@@ -133,7 +133,7 @@ class DocType:
                 d = Document('Customer')
                 d.customer_name = self.doc.name
                 d.gender = self.doc.gender
-                d.full_name = self.doc.customer_name
+                d.full_name = self.doc.first_name
                 d.save()
                 return d.name
 
@@ -167,7 +167,7 @@ class DocType:
                 profile = webnotes.bean({
                         "doctype":"Profile",
                         "email": self.doc.email,
-                        "first_name": self.doc.customer_name,
+                        "first_name": self.doc.first_name,
                         "user_image":self.doc.user_image,
                         "enabled": 1,
                         "user_type": "Customer"

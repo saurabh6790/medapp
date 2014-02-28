@@ -2,7 +2,7 @@
  {
   "creation": "2013-01-10 16:34:30", 
   "docstatus": 0, 
-  "modified": "2013-11-02 16:59:23", 
+  "modified": "2014-02-28 15:09:31", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -47,7 +47,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_details", 
   "fieldtype": "Section Break", 
-  "label": "Customer Details", 
+  "label": "Patient Details", 
   "oldfieldtype": "Section Break", 
   "options": "icon-user"
  }, 
@@ -63,7 +63,7 @@
   "fieldtype": "Link", 
   "in_filter": 1, 
   "in_list_view": 0, 
-  "label": "Customer", 
+  "label": "Patient", 
   "oldfieldname": "customer", 
   "oldfieldtype": "Link", 
   "options": "Customer", 
@@ -75,7 +75,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_address", 
   "fieldtype": "Link", 
-  "label": "Customer Address", 
+  "label": "Patient Address", 
   "options": "Address", 
   "print_hide": 1
  }, 
@@ -93,7 +93,7 @@
   "fieldtype": "Data", 
   "in_filter": 1, 
   "in_list_view": 1, 
-  "label": "Customer Name", 
+  "label": "Patient Name", 
   "oldfieldname": "customer_name", 
   "oldfieldtype": "Data", 
   "read_only": 1, 
@@ -180,7 +180,7 @@
   "fieldname": "company", 
   "fieldtype": "Link", 
   "in_filter": 1, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "Company", 
@@ -205,7 +205,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_group", 
   "fieldtype": "Link", 
-  "label": "Customer Group", 
+  "label": "Patient Group", 
   "options": "Customer Group", 
   "reqd": 1
  }, 

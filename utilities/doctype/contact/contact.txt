@@ -2,7 +2,7 @@
  {
   "creation": "2013-01-10 16:34:32", 
   "docstatus": 0, 
-  "modified": "2014-02-02 16:27:34", 
+  "modified": "2014-02-28 12:12:36", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -127,7 +127,7 @@
   "doctype": "DocField", 
   "fieldname": "customer", 
   "fieldtype": "Link", 
-  "label": "Customer", 
+  "label": "Patient", 
   "oldfieldname": "customer", 
   "oldfieldtype": "Link", 
   "options": "Customer", 
@@ -139,7 +139,7 @@
   "fieldname": "customer_name", 
   "fieldtype": "Data", 
   "in_list_view": 1, 
-  "label": "Customer Name", 
+  "label": "Patient Name", 
   "read_only": 1
  }, 
  {

@@ -20,7 +20,7 @@
   "Clinical": {
    "color": "#e67e22",
    "icon": "icon-play",
-   "label": "Clinical",
+   "label": "Patient Registration",
    "link": "clinical-home",
    "type": "page"
   },
@@ -65,6 +65,12 @@
    "link": "selling-home", 
    "label":"Marketing and Public Relations",
    "type": "module"
+  },
+  "Master": {
+   "color": "#1abc9c",
+   "icon": "icon-book",
+   "label": "Master",
+   "link": "master-home"
   }, 
   "Setup": {
    "color": "#bdc3c7", 

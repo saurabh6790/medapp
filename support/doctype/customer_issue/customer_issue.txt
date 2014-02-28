@@ -2,7 +2,7 @@
  {
   "creation": "2013-01-10 16:34:30", 
   "docstatus": 0, 
-  "modified": "2013-11-02 16:59:22", 
+  "modified": "2014-02-28 12:17:45", 
   "modified_by": "Administrator", 
   "owner": "harshada@webnotestech.com"
  }, 
@@ -47,7 +47,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_section", 
   "fieldtype": "Section Break", 
-  "label": "Customer", 
+  "label": "Patient", 
   "options": "icon-user"
  }, 
  {
@@ -103,7 +103,7 @@
   "fieldtype": "Link", 
   "in_filter": 1, 
   "in_list_view": 1, 
-  "label": "Customer", 
+  "label": "Patient", 
   "oldfieldname": "customer", 
   "oldfieldtype": "Link", 
   "options": "Customer", 
@@ -115,7 +115,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_address", 
   "fieldtype": "Link", 
-  "label": "Customer Address", 
+  "label": "Patient Address", 
   "options": "Address", 
   "print_hide": 1
  }, 
@@ -275,7 +275,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_name", 
   "fieldtype": "Data", 
-  "label": "Customer Name", 
+  "label": "Patient Name", 
   "read_only": 1
  }, 
  {
@@ -283,7 +283,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_group", 
   "fieldtype": "Link", 
-  "label": "Customer Group", 
+  "label": "Patient Group", 
   "options": "Customer Group", 
   "print_hide": 1, 
   "reqd": 0
@@ -362,7 +362,7 @@
   "fieldname": "company", 
   "fieldtype": "Link", 
   "in_filter": 1, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "Company", 

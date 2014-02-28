@@ -13,7 +13,7 @@ wn.module_page["Accounts"] = [
 				doctype:"Journal Voucher"
 			},
 			{
-				label: wn._("Sales Invoice"),
+				label: wn._("Bill"),
 				description: wn._("Bills raised to Customers."),
 				doctype:"Sales Invoice"
 			},
@@ -41,7 +41,7 @@ wn.module_page["Accounts"] = [
 				doctype:"Cost Center"
 			},
 			{
-				label: wn._("Customer"),
+				label: wn._("Patient"),
 				description: wn._("Customer database."),
 				doctype:"Customer"
 			},
@@ -57,7 +57,7 @@ wn.module_page["Accounts"] = [
 		icon: "icon-wrench",
 		items: [
 			{
-				label: wn._("Company"),
+				label: wn._("Hospital"),
 				description: wn._("Company Master."),
 				doctype:"Company"
 			},

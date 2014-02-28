@@ -25,18 +25,21 @@ def get_filters_cond(doctype, filters, conditions):
 
  # searches for active employees
 def employee_query(doctype, txt, searchfield, start, page_len, filters):
+	
+	conditions = []
+
 	return webnotes.conn.sql("""select name, employee_name from `tabEmployee` 
 		where status = 'Active' 
 			and docstatus < 2 
 			and (%(key)s like "%(txt)s" 
 				or employee_name like "%(txt)s") 
-			%(mcond)s
+			%(fcond)s %(mcond)s
 		order by 
 			case when name like "%(txt)s" then 0 else 1 end, 
 			case when employee_name like "%(txt)s" then 0 else 1 end, 
 			name 
-		limit %(start)s, %(page_len)s""" % {'key': searchfield, 'txt': "%%%s%%" % txt,  
-		'mcond':get_match_cond(doctype, searchfield), 'start': start, 'page_len': page_len})
+		limit %(start)s, %(page_len)s""" % {'key': searchfield, 'txt': "%%%s%%" % txt, 'fcond':get_filters_cond(doctype, filters, conditions) ,
+		'mcond':get_match_cond(doctype, searchfield), 'start': start, 'page_len': page_len}, debug=1)
 
  # searches for leads which are not converted
 def lead_query(doctype, txt, searchfield, start, page_len, filters): 

@@ -2,7 +2,7 @@
  {
   "creation": "2013-03-07 11:55:06", 
   "docstatus": 0, 
-  "modified": "2013-11-02 14:05:25", 
+  "modified": "2014-02-28 14:44:32", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -75,7 +75,7 @@
   "doctype": "DocField", 
   "fieldname": "customer", 
   "fieldtype": "Link", 
-  "label": "Customer", 
+  "label": "Patient", 
   "options": "Customer", 
   "read_only": 0, 
   "reqd": 1
@@ -92,7 +92,7 @@
   "doctype": "DocField", 
   "fieldname": "company", 
   "fieldtype": "Select", 
-  "label": "Company", 
+  "label": "Hospital", 
   "options": "link:Company", 
   "read_only": 0
  }, 

@@ -12,45 +12,15 @@ wn.module_page["Clinical"] = [
                                 description: wn._("Patient Registration form."),
                                 doctype:"Patient Register"
                         },
-
-                  
                         {
                                 label: wn._("Patient Encounter Entry"),
                                 description: wn._("Make Patient Encounter Entry"),
                                 doctype:"Patient Encounter Entry"
-                        },                                              
+                        },         
                         {
-                                label: wn._("Appoinment Details"),
-                                description: wn._("Appoinment Details"),
-                                doctype:"Event"
-                        },                      
-			{
-                                label: wn._("Study Master"),
-                                description: wn._("Make Referrals Payments."),
-                                doctype:"Study"
-                        },                       
-                        
-                        {
-                                label: wn._("Modality"),
-                                description: wn._("Modality Master."),
-                                doctype:"Modality"
-                        },
-                        {
-                                label: wn._("Slot Master"),
-                                description: wn._("Slot Master."),
-                                doctype:"Slots"
-                        },                        
-
-                        {
-                                "label":wn._("Slot Details Report"),
-                                route: "query-report/Available%20Slot%20Details",
-                                doctype: "Slots"
-                        },     
-                        {
-                                "label":wn._("Advance Payment"),
+                                "label":wn._("Advance Payment Entry"),
                                 doctype: "Advance Entry"
-                        },                
-
+                        },                         
                 ]
         }/*,
         {

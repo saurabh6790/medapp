@@ -2,7 +2,7 @@
  {
   "creation": "2013-04-10 08:35:39", 
   "docstatus": 0, 
-  "modified": "2013-11-02 14:24:11", 
+  "modified": "2014-02-28 14:38:44", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -41,7 +41,7 @@
   "doctype": "DocField", 
   "fieldname": "details", 
   "fieldtype": "Section Break", 
-  "label": "Company Details", 
+  "label": "Hospital Details", 
   "oldfieldtype": "Section Break", 
   "read_only": 0
  }, 
@@ -49,7 +49,7 @@
   "doctype": "DocField", 
   "fieldname": "company_name", 
   "fieldtype": "Data", 
-  "label": "Company", 
+  "label": "Hospital", 
   "no_copy": 0, 
   "oldfieldname": "company_name", 
   "oldfieldtype": "Data", 
@@ -257,7 +257,7 @@
   "doctype": "DocField", 
   "fieldname": "company_info", 
   "fieldtype": "Section Break", 
-  "label": "Company Info", 
+  "label": "Hospital Info", 
   "read_only": 0
  }, 
  {

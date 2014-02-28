@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-24 19:29:05", 
   "docstatus": 0, 
-  "modified": "2014-02-12 11:36:22", 
+  "modified": "2014-02-28 11:33:26", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -46,7 +46,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_data", 
   "fieldtype": "Button", 
-  "label": "Customer"
+  "label": "Patient"
  }, 
  {
   "doctype": "DocField", 
@@ -90,7 +90,7 @@
   "doctype": "DocField", 
   "fieldname": "customer_section", 
   "fieldtype": "Section Break", 
-  "label": "Customer", 
+  "label": "Patient", 
   "options": "icon-user"
  }, 
  {
@@ -203,7 +203,7 @@
   "fieldtype": "Link", 
   "hidden": 1, 
   "in_filter": 1, 
-  "label": "Company", 
+  "label": "Hospital", 
   "oldfieldname": "company", 
   "oldfieldtype": "Link", 
   "options": "Company", 
@@ -351,7 +351,7 @@
   "doctype": "DocField", 
   "fieldname": "entries", 
   "fieldtype": "Table", 
-  "label": "Sales Invoice Items", 
+  "label": "Billed Items", 
   "oldfieldname": "entries", 
   "oldfieldtype": "Table", 
   "options": "Sales Invoice Item", 
@@ -706,7 +706,7 @@
   "doctype": "DocField", 
   "fieldname": "advance_adjustment_details", 
   "fieldtype": "Table", 
-  "label": "Sales Invoice Advance", 
+  "label": "Bill Advance", 
   "oldfieldname": "advance_adjustment_details", 
   "oldfieldtype": "Table", 
   "options": "Sales Invoice Advance", 
@@ -891,7 +891,7 @@
   "read_only": 0
  }, 
  {
-  "description": "Customer (Receivable) Account", 
+  "description": "Patient (Receivable) Account", 
   "doctype": "DocField", 
   "fieldname": "debit_to", 
   "fieldtype": "Link", 

@@ -37,13 +37,13 @@ class DocType():
                         webnotes.errprint(date_a)
                         webnotes.conn.sql("update `tabEvent` set starts_on='"+cstr(datetime.strptime(date_a,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"', ends_on='"+cstr(datetime.strptime(date_b,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"' where name='"+self.doc.eventid+"'",debug=1)
 
-                if cint(self.doc.checked_in)==1:
-                        check_confirmed=webnotes.conn.sql("select true from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status='Confirm'",debug=1)
-                        if not check_confirmed:
-                                webnotes.conn.sql("update tabEvent set event_type='Confirm' where name='%s'"%self.doc.eventid)
-                                webnotes.conn.sql("update `tabSlot Child` set status='Confirm' where encounter='%s'"%self.doc.name)
-                        else:
-                                webnotes.msgprint("Selected slot is not available",raise_exception=1)
+                if cint(self.doc.checked_in)==1: pass
+                        # check_confirmed=webnotes.conn.sql("select true from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status='Confirm'",debug=1)
+                        # if not check_confirmed:
+                        #         webnotes.conn.sql("update tabEvent set event_type='Confirm' where name='%s'"%self.doc.eventid)
+                        #         webnotes.conn.sql("update `tabSlot Child` set status='Confirm' where encounter='%s'"%self.doc.name)
+                        # else:
+                        #         webnotes.msgprint("Selected slot is not available",raise_exception=1)
 
 
         def create_new_contact(self):
@@ -226,6 +226,20 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
 @webnotes.whitelist()
 def get_employee(doctype, txt, searchfield, start, page_len, filters):
         return webnotes.conn.sql("select name, employee_name from tabEmployee where designation = 'Radiologist'")
+
+@webnotes.whitelist()
+def get_patient(doctype, txt, searchfield, start, page_len, filters):
+        return webnotes.conn.sql("""select name, first_name from `tabPatient Register` 
+                where docstatus < 2 
+                        and (%(key)s like "%(txt)s" 
+                                or first_name like "%(txt)s") 
+                order by 
+                        case when name like "%(txt)s" then 0 else 1 end, 
+                        case when first_name like "%(txt)s" then 0 else 1 end, 
+                        name 
+                limit %(start)s, %(page_len)s""" % {'key': searchfield, 'txt': "%%%s%%" % txt,
+                'start': start, 'page_len': page_len})
+        
 @webnotes.whitelist()
 def update_event(checked, dname,encounter):
 
