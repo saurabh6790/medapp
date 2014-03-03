@@ -1,0 +1,93 @@
+[
+ {
+  "creation": "2014-03-03 11:41:45", 
+  "docstatus": 0, 
+  "modified": "2014-03-03 14:24:55", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "REPO.#######", 
+  "doctype": "DocType", 
+  "document_type": "Master", 
+  "module": "Clinical", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Patient Report", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "cancel": 0, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Patient Report", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Patient Report"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_id", 
+  "fieldtype": "Data", 
+  "label": "Patient Id"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "patient_name", 
+  "fieldtype": "Data", 
+  "label": "Patient Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "referral_name", 
+  "fieldtype": "Data", 
+  "label": "Referral Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "encounter_id", 
+  "fieldtype": "Data", 
+  "label": "Encounter Id"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "station_location", 
+  "fieldtype": "Data", 
+  "label": "Station Location"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "ae_title", 
+  "fieldtype": "Data", 
+  "label": "AE TITLE"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "short_name", 
+  "fieldtype": "Data", 
+  "label": "Short Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "report_details", 
+  "fieldtype": "Text", 
+  "label": "Report Details"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]
