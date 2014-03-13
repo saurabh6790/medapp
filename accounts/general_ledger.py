@@ -64,7 +64,7 @@ def save_entries(gl_map, adv_adj, update_outstanding):
 	
 	total_debit = total_credit = 0.0
 	for entry in gl_map:
-		webnotes.errprint(entry)
+		# webnotes.errprint(entry)
 		make_entry(entry, adv_adj, update_outstanding)
 		# check against budget
 		validate_expense_against_budget(entry)

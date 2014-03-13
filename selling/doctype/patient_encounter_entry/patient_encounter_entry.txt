@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-16 12:38:55", 
   "docstatus": 0, 
-  "modified": "2014-02-28 21:29:16", 
+  "modified": "2014-03-12 20:51:48", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -33,7 +33,6 @@
   "permlevel": 0, 
   "read": 1, 
   "report": 1, 
-  "role": "Administrator", 
   "write": 1
  }, 
  {
@@ -143,7 +142,7 @@
   "doctype": "DocField", 
   "fieldname": "patient", 
   "fieldtype": "Link", 
-  "label": "Patient", 
+  "label": "Patient Id", 
   "options": "Patient Register", 
   "reqd": 0
  }, 
@@ -182,6 +181,12 @@
   "fieldname": "email_id", 
   "fieldtype": "Data", 
   "label": "Email Id"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "get_patient", 
+  "fieldtype": "Button", 
+  "label": "Get Patient"
  }, 
  {
   "doctype": "DocField", 
@@ -243,14 +248,14 @@
   "doctype": "DocField", 
   "fieldname": "radiologist_name", 
   "fieldtype": "Link", 
-  "label": "Radiologist Name", 
+  "label": "Radiologist Id", 
   "options": "Employee"
  }, 
  {
   "doctype": "DocField", 
   "fieldname": "radiologist_", 
   "fieldtype": "Data", 
-  "label": "Radiologist-", 
+  "label": "Radiologist Name", 
   "read_only": 1
  }, 
  {
@@ -302,7 +307,7 @@
   "doctype": "DocField", 
   "fieldname": "technologist", 
   "fieldtype": "Link", 
-  "label": "Technologist", 
+  "label": "Technologist Id", 
   "options": "Employee"
  }, 
  {
@@ -618,6 +623,22 @@
  }, 
  {
   "doctype": "DocField", 
+  "fieldname": "global_id", 
+  "fieldtype": "Data", 
+  "in_filter": 1, 
+  "label": "global id", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "ack_id", 
+  "fieldtype": "Data", 
+  "hidden": 1, 
+  "label": "ack_id", 
+  "read_only": 1
+ }, 
+ {
+  "doctype": "DocField", 
   "fieldname": "referral_fee_details", 
   "fieldtype": "Section Break", 
   "hidden": 1, 
@@ -681,6 +702,12 @@
   "options": "Company"
  }, 
  {
-  "doctype": "DocPerm"
+  "doctype": "DocPerm", 
+  "role": "Administrator"
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "match": "patient", 
+  "role": "Patient"
  }
 ]

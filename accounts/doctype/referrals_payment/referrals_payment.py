@@ -14,8 +14,8 @@ class DocType:
 	def __init__(self, d, dl):
 		self.doc, self.doclist = d, dl
 	
-	def on_update(self):
-		webnotes.errprint('hell')
+	def on_update(self):pass
+		# webnotes.errprint('hell')
 	
 	def get_patient(self):
 		patients = webnotes.conn.sql("""select parent from tabEncounter 
@@ -30,7 +30,7 @@ class DocType:
                 for patient in patients:
 			amount = webnotes.conn.sql("""select sum(grand_total_export), group_concat(concat("'",name,"'")) from `tabSales Invoice` 
 				where ifnull(referrals_payment_done,'False')='False' and customer = '%s'"""%patient['parent'],as_list=1)
-			webnotes.errprint(amount)	
+			# webnotes.errprint(amount)	
 			cld = addchild(self.doc, 'payment_details', 'Referrals Payment Details',self.doclist)
                         cld.patient = patient['parent']
 

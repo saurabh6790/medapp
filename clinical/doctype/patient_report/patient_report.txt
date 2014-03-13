@@ -2,7 +2,7 @@
  {
   "creation": "2014-03-03 11:41:45", 
   "docstatus": 0, 
-  "modified": "2014-03-03 14:24:55", 
+  "modified": "2014-03-08 11:58:38", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -22,8 +22,6 @@
   "permlevel": 0
  }, 
  {
-  "cancel": 0, 
-  "create": 1, 
   "doctype": "DocPerm", 
   "name": "__common__", 
   "parent": "Patient Report", 
@@ -31,9 +29,7 @@
   "parenttype": "DocType", 
   "permlevel": 0, 
   "read": 1, 
-  "report": 1, 
-  "role": "Administrator", 
-  "write": 1
+  "report": 1
  }, 
  {
   "doctype": "DocType", 
@@ -42,8 +38,9 @@
  {
   "doctype": "DocField", 
   "fieldname": "patient_id", 
-  "fieldtype": "Data", 
-  "label": "Patient Id"
+  "fieldtype": "Link", 
+  "label": "Patient Id", 
+  "options": "Patient Register"
  }, 
  {
   "doctype": "DocField", 
@@ -88,6 +85,22 @@
   "label": "Report Details"
  }, 
  {
-  "doctype": "DocPerm"
+  "doctype": "DocField", 
+  "fieldname": "show_images", 
+  "fieldtype": "Button", 
+  "label": "Show Images", 
+  "options": "show_images"
+ }, 
+ {
+  "cancel": 0, 
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "match": "patient_id", 
+  "role": "Patient"
  }
 ]

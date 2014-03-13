@@ -210,5 +210,5 @@ def apply_pos_settings(pos_settings, opts):
 	return out
 
 @webnotes.whitelist()
-def get_login():
-	webnotes.errprint("done")
+def get_login():pass
+	# webnotes.errprint("done")

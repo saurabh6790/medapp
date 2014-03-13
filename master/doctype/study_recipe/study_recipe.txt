@@ -1,0 +1,58 @@
+[
+ {
+  "creation": "2014-03-08 13:21:27", 
+  "docstatus": 0, 
+  "modified": "2014-03-08 13:21:58", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "field:study", 
+  "doctype": "DocType", 
+  "document_type": "Master", 
+  "module": "Master", 
+  "name": "__common__"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Study Recipe", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Study Recipe", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1, 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Study Recipe"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study", 
+  "fieldtype": "Link", 
+  "label": "Study", 
+  "options": "Study"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "study_recipe_details", 
+  "fieldtype": "Table", 
+  "label": "Study Recipe Details", 
+  "options": "Study Recipe Details"
+ }, 
+ {
+  "doctype": "DocPerm"
+ }
+]

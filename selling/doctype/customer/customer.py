@@ -18,7 +18,7 @@ class DocType(TransactionBase):
 				
 	def autoname(self):
 		cust_master_name = webnotes.defaults.get_global_default('cust_master_name')
-		webnotes.errprint([cust_master_name,self.doc.doctype])
+		# webnotes.errprint([cust_master_name,self.doc.doctype])
 		if cust_master_name == 'Customer Name':
 			if webnotes.conn.exists("Supplier", self.doc.customer_name):
 				msgprint(_("A Supplier exists with same name"), raise_exception=1)
@@ -57,7 +57,7 @@ class DocType(TransactionBase):
 			where customer=%s""", (self.doc.customer_name, self.doc.name))
 
 	def create_account_head(self):
-		webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
+		# webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
 		if self.doc.company :
 			abbr = self.get_company_abbr()
 			if not webnotes.conn.exists("Account", (self.doc.name + " - " + abbr)):
@@ -106,7 +106,7 @@ class DocType(TransactionBase):
 				pass
 
 	def on_update(self):
-		webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
+		# webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
 		self.validate_name_with_customer_group()
 		
 		self.update_lead_status()

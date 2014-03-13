@@ -9,7 +9,7 @@ def execute(filters=None):
 	
 	return columns,data
 def get_data(cond):
-	webnotes.errprint(cond)
+	# webnotes.errprint(cond)
 	return webnotes.conn.sql(""" SELECT l.name, l.lead_name,
 			(SELECT COUNT(*) FROM  `tabPatient Registration` p WHERE l.name=p.referred_by) reff_count,
 			(SELECT COUNT(*) FROM  `tabPatient Encounter Entry` e WHERE l.name=e.referrer_name) enc,

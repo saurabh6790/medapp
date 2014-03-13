@@ -39,7 +39,7 @@ def employee_query(doctype, txt, searchfield, start, page_len, filters):
 			case when employee_name like "%(txt)s" then 0 else 1 end, 
 			name 
 		limit %(start)s, %(page_len)s""" % {'key': searchfield, 'txt': "%%%s%%" % txt, 'fcond':get_filters_cond(doctype, filters, conditions) ,
-		'mcond':get_match_cond(doctype, searchfield), 'start': start, 'page_len': page_len}, debug=1)
+		'mcond':get_match_cond(doctype, searchfield), 'start': start, 'page_len': page_len})
 
  # searches for leads which are not converted
 def lead_query(doctype, txt, searchfield, start, page_len, filters): 

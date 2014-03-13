@@ -38,7 +38,7 @@ class DocType:
 		
 	def validate_master_name(self):
 		"""Remind to add master name"""
-		webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
+		# webnotes.errprint([self.doc.company,self.doc.master_type, self.doc.account_type])
 		if self.doc.master_type in ('Customer', 'Supplier') or self.doc.account_type == "Warehouse":
 			if not self.doc.master_name:
 				msgprint(_("Please enter Master Name once the account is created."))

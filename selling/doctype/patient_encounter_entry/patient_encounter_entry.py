@@ -6,6 +6,9 @@ from  selling.doctype.customer.customer import DocType
 import datetime
 from webnotes import msgprint, _
 from selling.doctype.lead.lead import create_contact
+from webnotes.model.code import get_obj
+from webnotes.model.bean import getlist, copy_doclist
+from selling.doctype.patient_encounter_entry.notification_schedular import get_encounters
 class DocType():
         def __init__(self, d, dl):
                 self.doc, self.doclist = d, dl
@@ -13,6 +16,9 @@ class DocType():
         def on_update(self):
                 patient_id = None
                 from datetime import datetime
+
+                if self.doc.status == 'Canceled':
+                        webnotes.conn.sql("update `tabPatient Encounter Entry` set docstatus = '1' where name = '%s'"%(self.doc.name))
 
                 s1=(self.doc.start_time).split(':')
                 s2=(self.doc.end_time).split(':')
@@ -34,8 +40,8 @@ class DocType():
                         self.create_child()
                 else:
                         webnotes.conn.sql("update `tabSlot Child` set slot='"+self.doc.appointment_slot+"', start_time='"+cstr(datetime.strptime(date_a,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"', end_time='"+cstr(datetime.strptime(date_b,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"' where encounter='"+self.doc.name+"'")
-                        webnotes.errprint(date_a)
-                        webnotes.conn.sql("update `tabEvent` set starts_on='"+cstr(datetime.strptime(date_a,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"', ends_on='"+cstr(datetime.strptime(date_b,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"' where name='"+self.doc.eventid+"'",debug=1)
+                        # webnotes.errprint(date_a)
+                        webnotes.conn.sql("update `tabEvent` set starts_on='"+cstr(datetime.strptime(date_a,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"', ends_on='"+cstr(datetime.strptime(date_b,'%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d %H:%M'))+"' where name='"+self.doc.eventid+"'")
 
                 if cint(self.doc.checked_in)==1: pass
                         # check_confirmed=webnotes.conn.sql("select true from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status='Confirm'",debug=1)
@@ -44,7 +50,55 @@ class DocType():
                         #         webnotes.conn.sql("update `tabSlot Child` set status='Confirm' where encounter='%s'"%self.doc.name)
                         # else:
                         #         webnotes.msgprint("Selected slot is not available",raise_exception=1)
+                # get_encounters()
+                # self.send_notification()
 
+        def send_notification(self):
+                mail_list = []
+                number = []
+
+                msg = """Hi %(patient)s, Your appointment has been schedule on %(encounter_date)s at time %(start_time)s 
+                        for study %(study)s on modality %(modality)s"""%{'patient': self.doc.patient, 'encounter_date':self.doc.encounter_date, 
+                        'start_time':self.doc.start_time, 'study':self.doc.study, 'modality':self.doc.modality}
+
+                technologiest_contact = webnotes.conn.sql("select cell_number, personal_email from tabEmployee where name = '%s'"%(self.doc.technologist),as_list=1)
+                patient_contact = webnotes.conn.sql("select mobile, email from `tabPatient Register` where name = '%s'"%(self.doc.patient),as_list=1)
+
+                # webnotes.errprint([technologiest_contact, patient_contact])
+
+                mail_list.append(technologiest_contact[0][1])
+                mail_list.append(patient_contact[0][1])
+
+                number.append(technologiest_contact[0][0])
+                number.append(patient_contact[0][0])
+
+                self.send_mail(msg, mail_list)
+                self.send_sms(msg, number)
+
+        def send_mail(self, msg, mail_list):
+                from webnotes.utils.email_lib import sendmail
+                for id in mail_list:
+                        if id:
+                                sendmail(id, subject='Appoiontment Scheduling', msg = msg)
+
+        def send_sms(self, msg, number):
+                ss = get_obj('SMS Settings', 'SMS Settings', with_children=1)
+                # webnotes.errprint(ss)
+                # for num in number:
+                # webnotes.errprint(['number',num])
+                args = {}
+                for d in getlist(ss.doclist, 'static_parameter_details'):
+                        args[d.parameter] = d.value
+                sms_url=webnotes.conn.get_value('SMS Settings', None, 'sms_gateway_url')
+                msg_parameter=webnotes.conn.get_value('SMS Settings', None, 'message_parameter')
+                receiver_parameter=webnotes.conn.get_value('SMS Settings', None, 'receiver_parameter')
+                for num in number:
+                        if num:
+                                url = sms_url +"?user="+ args["user"] +"&senderID="+ args["sender ID"] +"&receipientno="+ num +"\
+                                        &dcs="+ args["dcs"]+ "&msgtxt=" + msg +"&state=" +args["state"]
+                                # webnotes.errprint(url)
+                                import requests
+                                r = requests.get(url)
 
         def create_new_contact(self):
                 details = {}
@@ -101,13 +155,13 @@ class DocType():
                 # date_a=cstr(datetime.combine(datetime.strptime(self.doc.encounter_date,'%Y-%m-%d').date(),datetime.strptime(self.doc.start_time,'%H:%M').time()))
                 # date_b=cstr(datetime.combine(datetime.strptime(self.doc.encounter_date,'%Y-%m-%d').date(),datetime.strptime(self.doc.end_time,'%H:%M').time()))
                 if self.doc.appointment_slot:
-                        webnotes.errprint([self.doc.start_time])
-                        check_confirmed=webnotes.conn.sql("select true from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status='Confirm'",debug=1)
-                        webnotes.errprint(check_confirmed)
+                        # webnotes.errprint([self.doc.start_time])
+                        check_confirmed=webnotes.conn.sql("select true from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status='Confirm'")
+                        # webnotes.errprint(check_confirmed)
                         if not check_confirmed:
 
                                 check_status=webnotes.conn.sql("select case when count(*)<2 then true else false end  from `tabSlot Child` where slot='"+self.doc.appointment_slot+"' and modality='"+self.doc.encounter+"' and study='"+self.doc.study+"' and date_format(start_time,'%Y-%m-%d %H:%M')=date_format('"+date_a+"','%Y-%m-%d %H:%M') and date_format(end_time,'%Y-%m-%d %H:%M')=date_format('"+date_b+"','%Y-%m-%d %H:%M') and status<>'Cancel'",as_list=1)
-                                webnotes.errprint(check_status[0][0])
+                                # webnotes.errprint(check_status[0][0])
                                 if check_status[0][0]==1:
 
                                         d=Document("Slot Child")
@@ -138,10 +192,10 @@ class DocType():
                 services = webnotes.conn.sql(""" SELECT foo.*, case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_fee from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name) else (select ifnull(referral_fee,0) from tabStudy where name=foo.study) end as referral_fee,
 case when exists(select true from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name and a.referral_fee <> 0) then (select a.referral_rule from `tabPhysician Values` a WHERE a.study_name=foo.study AND a.parent=foo.referrer_name) else (select referral_rule from tabStudy where name=foo.study) end as referral_rule
         FROM ( SELECT s.study_aim AS study,s.modality, e.encounter,e.referrer_name, e.name, s.discount_type,s.study_detials,s.discounted_value as dis_value FROM `tabEncounter` e, tabStudy s WHERE ifnull(e.is_invoiced,'False')='False' AND 
-e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
+e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1)
                 
                 patient_data_new=[]
-                webnotes.errprint(services)
+                # webnotes.errprint(services)
                 tot_amt = 0.0
                 for srv in services:
                                 
@@ -150,11 +204,11 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
                         # cld.modality = srv['modality']
                         # cld.encounter_id = srv['name']
                         # cld.discount_type = srv['discount_type']
-                        export_rate=webnotes.conn.sql("""select study_fees from tabStudy where name = '%s' """%srv['study'],as_list=1,debug=1)
+                        export_rate=webnotes.conn.sql("""select study_fees from tabStudy where name = '%s' """%srv['study'],as_list=1)
                         srv['export_rate'] = export_rate[0][0] if export_rate else 0
                         # cld.referrer_name=srv['referrer_name']
                         if srv['referrer_name']:
-                                acc_head = webnotes.conn.sql("""select name from `tabAccount` where master_name='%s'"""%(srv['referrer_name']),debug=1)
+                                acc_head = webnotes.conn.sql("""select name from `tabAccount` where master_name='%s'"""%(srv['referrer_name']))
                                 if acc_head and acc_head[0][0]:
                                         srv['referrer_physician_credit_to'] = acc_head[0][0]
                                 
@@ -178,12 +232,12 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
                         tot_amt = flt(srv['basic_charges']) + tot_amt
                         srv['amount'] = tot_amt
                         patient_data_new.append(srv)
-                webnotes.errprint(patient_data_new)
+                # webnotes.errprint(patient_data_new)
                 return patient_data_new
 
         def make_child_entry(self, patient_id=None):
                 enct = Document('Encounter')
-                webnotes.errprint([enct, self.doc.patient])
+                # webnotes.errprint([enct, self.doc.patient])
                 enct.encounter = self.doc.encounter
                 enct.study = self.doc.study
                 enct.encounter_date = self.doc.encounter_date
@@ -222,7 +276,6 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(patient_data),as_dict=1,debug=1)
                 self.doc.eventid = evnt.name
                 self.doc.save()
 
-
 @webnotes.whitelist()
 def get_employee(doctype, txt, searchfield, start, page_len, filters):
         return webnotes.conn.sql("select name, employee_name from tabEmployee where designation = 'Radiologist'")
@@ -245,12 +298,12 @@ def update_event(checked, dname,encounter):
 
         if cint(checked) == 1:
                 webnotes.conn.sql("update tabEvent set event_type='Confirm' where name='%s'"%dname)
-                webnotes.errprint(encounter)
+                # webnotes.errprint(encounter)
                 webnotes.conn.sql("update `tabSlot Child` set status='Confirm' where encounter='%s'"%encounter)
 
 @webnotes.whitelist()
 def get_events(start, end, doctype,op,filters=None):
-        webnotes.errprint(['hello',doctype, op])
+        # webnotes.errprint(['hello',doctype, op])
         cnd =''
         if op:
                 cnd = "and encounter = '%(pros)s'"%{"pros":op}
@@ -258,9 +311,9 @@ def get_events(start, end, doctype,op,filters=None):
         from webnotes.widgets.reportview import build_match_conditions
         #if not webnotes.has_permission("Task"):
         #        webnotes.msgprint(_("No Permission"), raise_exception=1)
-
-        conditions = build_match_conditions("Task")
-        conditions and (" and " + conditions) or ""
+        conditions = ''
+        # conditions = build_match_conditions("Patient Encounter Entry")
+        # conditions and (" and " + conditions) or ""
         
         if filters:
                 filters = json.loads(filters)
@@ -277,7 +330,7 @@ def get_events(start, end, doctype,op,filters=None):
                         "end": end,
                         "conditions": conditions,
                         "cnd":cnd
-                }, as_dict=True, update={"allDay": 0},debug=1)
+                }, as_dict=True, update={"allDay": 0})
 
         return data
 
@@ -296,20 +349,20 @@ def set_slot(modality, start_time, end_time):
         return start_time, end_time
 
 def check_availability(modality, start_time, end_time, time):
-        webnotes.errprint(start_time)
+        # webnotes.errprint(start_time)
         count = webnotes.conn.sql("""select sum(case when status = 'Waiting' then 2 when status = 'Confirmed' then 1 else 0 end) as status from `tabPatient Encounter Entry` 
                 where encounter = '%(encounter)s' and start_time = '%(start_time)s' and end_time = '%(end_time)s'
-                """%{'encounter':modality, 'start_time':start_time, 'end_time':end_time},as_list=1,debug=1)
+                """%{'encounter':modality, 'start_time':start_time, 'end_time':end_time},as_list=1)
 
         if count[0][0] in (1, 4, 3):
-                webnotes.errprint("if loop")
+                # webnotes.errprint("if loop")
                 start_time = end_time
                 end_time = calc_end_time(cstr(start_time),time)
 
                 return check_availability(modality, start_time, end_time, time)
 
         else:
-                webnotes.errprint(["else loop", start_time, end_time])
+                # webnotes.errprint(["else loop", start_time, end_time])
                 return start_time, end_time
 
 
@@ -326,8 +379,12 @@ def calc_start_time(start_time, modality):
         end_slot = datetime.datetime.strptime(cstr(start_time), '%Y-%m-%d %H:%M:%S') + datetime.timedelta(minutes=30)
         start_time_list = webnotes.conn.sql("""select end_time from `tabPatient Encounter Entry` 
                         where encounter='%(encounter)s' and end_time between '%(start_time)s' 
-                                and '%(end_slot)s'"""%{'encounter':modality, 'start_time':start_time, 'end_slot':end_slot},debug=1)
+                                and '%(end_slot)s'"""%{'encounter':modality, 'start_time':start_time, 'end_slot':end_slot})
         if start_time_list:
                 start_time = start_time_list[0][0]
         
         return start_time
+
+@webnotes.whitelist()
+def get_patient(patient_id):
+        get_obj('DB SYNC', 'DB SYNCl').sync_db(patient_id)

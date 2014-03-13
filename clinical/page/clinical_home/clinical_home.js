@@ -20,7 +20,11 @@ wn.module_page["Clinical"] = [
                         {
                                 "label":wn._("Advance Payment Entry"),
                                 doctype: "Advance Entry"
-                        },                         
+                        },                 
+                        {
+                                "label":wn._("Patient Report"),
+                                doctype: "Patient Report"
+                        },          
                 ]
         }/*,
         {

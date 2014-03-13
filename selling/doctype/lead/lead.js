@@ -71,7 +71,7 @@ erpnext.LeadController = wn.ui.form.Controller.extend({
 			
 		for (var key in a)
 		{
-			console.log("hi")		
+			// console.log("hi")		
 			$('button[data-fieldname='+key+']').css("width","200");
 			if(key==show_key)
 			{

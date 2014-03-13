@@ -12,7 +12,7 @@ class DocType:
 	
 	def on_update(self):
 		from accounts.utils import create_advance_entry
-		webnotes.errprint(self.doc.company)
+		# webnotes.errprint(self.doc.company)
 		debit_to = webnotes.conn.sql("select name from tabAccount where master_name='%s'"%self.doc.patient_id,as_list=1)	
 		if debit_to:
 			create_advance_entry(self.doc.advance_amount, self.doc.patient_id, debit_to[0][0], self.doc.company) 

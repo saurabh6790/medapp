@@ -33,15 +33,10 @@ cur_frm.cscript.refresh = function(doc, cdt, cdn){
 			for(j=0;j<arr.length;j++){
 				//console.log(cl[i].priority == arr[j]);
 				if(cl[i].priority == arr[j]){
-					console.log("in if loop");
+					// console.log("in if loop");
 					
 			     		msgprint("Duplicate Priority at Row Number "+(i+1)+" ");
 				}
-				else
-				{
-					console.log("in else loop");				
-					
-				}	
 		   }			
 		arr.push(cl[i].priority);	
 			
@@ -74,7 +69,7 @@ function make_linking(show_key){
 
                 for (var key in a)
                 {
-                        console.log("hi")
+                        // console.log("hi")
                         $('button[data-fieldname='+key+']').css("width","200");
                         if(key==show_key)
                         {

@@ -7,10 +7,11 @@ cur_frm.add_fetch('referrer_name', 'lead_name', 'referral');
 cur_frm.add_fetch('technologist', 'employee_name', 'technologist_name');
 cur_frm.add_fetch('appointment_slot', 'start_time', 'start_time');
 cur_frm.add_fetch('appointment_slot', 'end_time', 'end_time');
+cur_frm.add_fetch('patient', 'patient_online_id', 'global_id')
 
 cur_frm.cscript.onload = function(doc, cdt, cdn) {
 	// cur_frm.cscript.referrer_name(doc)
-	// alert(this.frm.doc.start_time)
+	alert(this.frm.doc.encounter)
 	if(this.frm.doc.encounter){
 		wn.call({
 			method: "selling.doctype.patient_encounter_entry.patient_encounter_entry.set_slot",
@@ -58,7 +59,7 @@ make_linking('disc')
 
 function make_linking(show_key){
 	for (var key in a){
-		console.log(key)
+		// console.log(key)
 		$('button[data-fieldname='+key+']').css("width","200");
 		if(key==show_key){
 			if(key=='encounter_data'){
@@ -196,3 +197,34 @@ cur_frm.fields_dict.technologist.get_query =function(doc,cdt,cdn)
 		}
    	}
 }
+
+cur_frm.cscript.get_patient = function(doc, dt ,dn) {
+	var d = new wn.ui.Dialog({
+		title:wn._('Get patient'),
+		fields: [
+			{fieldtype:'Data', fieldname:'patient_id', label:wn._('Patient Id'), reqd:true, 
+				description: wn._("Enter Patient Global Id")+
+				wn._("Enter Patient Global Id")},
+			{fieldtype:'Button', fieldname:'fetch_patient', label:wn._('Fetch Patient') }
+		]
+	})
+	var fd = d.fields_dict;
+	$(fd.fetch_patient.input).click(function() {
+			var btn = this;
+			$(btn).set_working();
+			var patient_id  = d.get_values();
+			if(!patient_id) return;	
+			return wn.call({
+				args: patient_id,
+				method:'selling.doctype.patient_encounter_entry.patient_encounter_entry.get_patient',
+				callback: function(r) {
+					$(btn).done_working();
+					d.hide();
+				}
+			});
+		});
+
+	d.show();
+}
+
+

@@ -91,7 +91,7 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 			cld.encounter_id = srv['name']
 			cld.discount_type = srv['discount_type']
 			export_rate=webnotes.conn.sql("""select ref_rate from `tabItem Price` 
-					where price_list = '%s' and study = '%s'"""%(self.doc.selling_price_list,srv['study']),debug=1)
+					where price_list = '%s' and study = '%s'"""%(self.doc.selling_price_list,srv['study']))
 			cld.export_rate = export_rate[0][0] if export_rate else 0
 			cld.referrer_name=srv['referrer_name']
 			if cld.referrer_name:
@@ -99,7 +99,7 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
                                 where (name = %s or (master_name = %s and master_type = 'Lead')) 
                                 and docstatus != 2 and company = %s""",
                                 (cstr(cld.referrer_name) + " - " + self.company_abbr,
-                                cld.referrer_name, self.doc.company),debug=1)
+                                cld.referrer_name, self.doc.company))
 
                         	if acc_head and acc_head[0][0]:
                                 	cld.referrer_physician_credit_to = acc_head[0][0]
@@ -173,7 +173,7 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 					if s.referrer_physician_credit_to:
 						if not cstr(s.referrer_physician_credit_to) in referrer:
 							referrer[cstr(s.referrer_physician_credit_to)] = 0.0
-					webnotes.errprint(referrer)
+					# webnotes.errprint(referrer)
 					update_flag=webnotes.conn.sql("update `tabEncounter` set is_invoiced='True' where name='%s'"%(s.encounter_id))
 					if not self.doc.lump_sum_payment:
 						if s.referral_rule == "Percent": 
@@ -205,8 +205,8 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 		self.make_JV1(self.doc.paid_amount_data,self.doc.debit_to,self.doc.patient_credit_to,self.doc.company)
 		
 
-	def set_flag(self):
-		webnotes.errprint(ids)
+	def set_flag(self):pass
+		# webnotes.errprint(ids)
 
 	def before_cancel(self):
 		self.update_time_log_batch(None)
@@ -324,13 +324,13 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 				self.set_taxes("other_charges", "charge")
 
 	def get_referrer_account(self,referrer_name):
-		webnotes.errprint(self.referrer_name)
+		# webnotes.errprint(self.referrer_name)
 		if referrer_name:
 			acc_head = webnotes.conn.sql("""select name, credit_days from `tabAccount` 
 				where (name = %s or (master_name = %s and master_type = 'Lead')) 
 				and docstatus != 2 and company = %s""", 
 				(cstr(referrer_name) + " - " + self.company_abbr, 
-				referrer_name, self.doc.company),debug=1)
+				referrer_name, self.doc.company))
 		
 			if acc_head and acc_head[0][0]:
 				referrer_physician_credit_to = acc_head[0][0]
@@ -443,7 +443,7 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 	        """Validate Fixed Asset Account and whether Income Account Entered Exists"""
 	        for d in getlist(self.doclist,'entries'):
 			item = webnotes.conn.sql("select name,is_asset_item,is_sales_item from `tabItem` where name = '%s' and (ifnull(end_of_life,'')='' or end_of_life = '0000-00-00' or end_of_life >	now())"% d.item_code)
-			webnotes.errprint(d.income_account)
+			# webnotes.errprint(d.income_account)
 			acc =	webnotes.conn.sql("select account_type from `tabAccount` where name = '%s' and docstatus != 2" % d.income_account)
 			if not acc:
 				msgprint("Account: "+cstr(d.income_account)+" does not exist in the system")
@@ -751,7 +751,7 @@ e.parent ='%s' and s.name = e.study) AS foo"""%(self.doc.customer),as_dict=1)
 	def make_item_gl_entries(self, gl_entries):			
 		# income account gl entries	
 		for item in self.doclist.get({"parentfield": "entries"}):
-			webnotes.errprint(['in make_item_gl_entries',item.amount,item])
+			# webnotes.errprint(['in make_item_gl_entries',item.amount,item])
 			if flt(item.amount):
 				gl_entries.append(
 					self.get_gl_dict({

@@ -37,4 +37,4 @@ def get_entries(filters):
 			and sii.parent = si.name
 			and si.name = jv.against_bill
 			and ld.name = acc.master_name %s
-		GROUP BY sii.study, jv.against_bill """  % ('%Accounts Payable%',conditions), as_list=1,debug=1)
+		GROUP BY sii.study, jv.against_bill """  % ('%Accounts Payable%',conditions), as_list=1)

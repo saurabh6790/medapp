@@ -21,7 +21,7 @@ wn.require('app/selling/sales_common.js');
 wn.require('app/accounts/doctype/sales_invoice/pos.js');
 
 wn.provide("erpnext.accounts");
-var a={"currency_and_price_list":". Currency and Price List","amt":". Amount","items_data":". Items","customer_data":". Customer","more_info_data":". More Info"};
+var a={"currency_and_price_list":". Currency and Price List","amt":". Amount","items_data":". Items","customer_data":". Patient","more_info_data":". More Info"};
 erpnext.accounts.SalesInvoiceController = erpnext.selling.SellingController.extend({
 	onload: function() {
 		this._super();
@@ -329,6 +329,9 @@ cur_frm.cscript.advance_entry = function(doc, dt ,dn) {
 	d.show();
 }
 
+
+
+
 cur_frm.cscript.mode_of_payment = function(doc, cdt, cdn) {
 	get_server_fields('child_entry','','',doc,cdt,cdn,1,function(r,rt) { refresh_field("entries");refresh_field('id')});
 	cur_frm.cscript.calculate_amt(doc,cdt,cdn)
@@ -343,7 +346,7 @@ cur_frm.cscript.mode_of_payment = function(doc, cdt, cdn) {
 
 cur_frm.cscript.calculate_amt=function(doc,cdt,cdn){
 	var cl=getchildren('Sales Invoice Item',doc.name,'entries')
-	console.log(cl)
+	// console.log(cl)
 	var s=0;
 	for (i=0;i<cl.length;i++)
 	{
@@ -414,7 +417,7 @@ cur_frm.cscript.export_rate=function(doc,cdt,cdn){
 	var d=locals[cdt][cdn];
 	var args=new Array()
 	var args=[d.export_rate]
-	console.log('hello')
+	// console.log('hello')
 	cur_frm.cscript.qty(doc,cdt,cdn)
 	if(d.export_rate && d.discount)
 	{
@@ -555,7 +558,7 @@ cur_frm.cscript.on_submit = function(doc, cdt, cdn) {
 
 cur_frm.cscript.referrer_name=function(doc,cdt,cdn){
 	var d=locals[cdt][cdn]
-	get_server_fields('get_referrer_account',d.referrer_name,'',doc,cdt,cdn,1,function(r,rt){console.log([r,rt])})
+	get_server_fields('get_referrer_account',d.referrer_name,'',doc,cdt,cdn,1,function(r,rt){var t = ''})
 	refresh_field('referrer_physician_credit_to')
 }
 
@@ -662,7 +665,7 @@ cur_frm.cscript.outstanding_amt=function(doc,cdt,cdn){
 	
 	doc.outstanding_amount=parseFloat(doc.outstanding_amount)-parseFloat(doc.paid_amount_data)-parseFloat(amt)
 	refresh_field('outstanding_amount')	
-	console.log(doc.outstanding_amount)
+	// console.log(doc.outstanding_amount)
 }
 
 

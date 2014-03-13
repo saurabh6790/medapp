@@ -2,7 +2,7 @@
  {
   "creation": "2014-01-31 12:25:24", 
   "docstatus": 0, 
-  "modified": "2014-02-28 15:34:08", 
+  "modified": "2014-03-03 16:25:20", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -337,7 +337,7 @@
   "fieldtype": "Data", 
   "label": "Profile Email Id", 
   "permlevel": 0, 
-  "reqd": 1
+  "reqd": 0
  }, 
  {
   "doctype": "DocField", 

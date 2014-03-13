@@ -58,7 +58,7 @@ cur_frm.cscript.update_totals = function(doc) {
 //-----------------------
 cur_frm.cscript.make_jv = function(doc, dt, dn) {
 	var call_back = function(r,rt){
-		console.log(r)
+		// console.log(r)
 		var jv = wn.model.make_new_doc_and_get_name('Journal Voucher');
 		jv = locals['Journal Voucher'][jv];
 		jv.voucher_type = 'Bank Voucher';

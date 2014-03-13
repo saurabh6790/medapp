@@ -10,5 +10,5 @@ class DocType:
 	def __init__(self, d, dl):
 		self.doc, self.doclist = d, dl
 	
-	def on_update(self):
-		webnotes.errprint("hii")
+	def on_update(self):pass
+		# webnotes.errprint("hii")

@@ -42,7 +42,7 @@ class DocType:
       rec = webnotes.conn.sql("select sales_person_name, mobile_no from `tabSales Person` where docstatus != 2 and ifnull(mobile_no,'')!=''")
 
     if self.doc.send_to == 'All Patient':
-      webnotes.errprint('all')
+      # webnotes.errprint('all')
       rec = webnotes.conn.sql("select customer_name, ifnull(mobile,0), email from `tabPatient Register` where docstatus != 2 and ifnull(mobile,'')!=''  and ifnull(email,'')!=''")
     if self.doc.send_to == 'Patient':
       rec = webnotes.conn.sql("select customer_name, mobile, email from `tabPatient Register` where docstatus != 2 and ifnull(mobile,'')!='' and ifnull(email,'')!='' and name = '%s'" % self.doc.patient)

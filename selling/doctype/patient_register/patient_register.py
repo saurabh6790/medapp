@@ -17,18 +17,18 @@ class DocType:
 	def __init__(self, d, dl):
 		self.doc, self.doclist = d, dl
 
-        def test_data(self):
-                webnotes.errprint("asd")
+        def test_data(self):pass
+                # webnotes.errprint("asd")
 	
 	def autoname(self):
 		make_autoname('A'+str(date.today().year)[-2:]+'AA'+'.##')
 
         def on_update(self):
-		webnotes.errprint('in on update')
+		# webnotes.errprint('in on update')
                 self.create_new_contact()
-                flag = webnotes.conn.sql("select ifnull(name,'') from tabProfile where name='"+self.doc.email+"'",as_list=1,debug=1)
+                flag = webnotes.conn.sql("select ifnull(name,'') from tabProfile where name='"+self.doc.email+"'",as_list=1)
                 if not flag:
-                        webnotes.errprint(flag)
+                        # webnotes.errprint(flag)
                         self.create_profile()
                         self.generate_barcode()
                         self.validate()
@@ -37,7 +37,7 @@ class DocType:
                         self.create_customer()         
                         self.create_patient_encounter_entry()
 			self.create_new_contact()
-                        webnotes.errprint(self.doc.user_image_show)
+                        # webnotes.errprint(self.doc.user_image_show)
                         self.doc.save()
 
 	def create_new_contact(self):
@@ -48,14 +48,14 @@ class DocType:
                 create_contact(details)
 
         def create_customer(self):
-                webnotes.errprint('customer creation starts')
+                # webnotes.errprint('customer creation starts')
                 from webnotes.model.doc import Document
                 d = Document('Customer')
                 d.customer_name = self.doc.name
                 d.gender = self.doc.gender
                 d.full_name = self.doc.customer_name
                 d.save()
-                webnotes.errprint(d.name)
+                # webnotes.errprint(d.name)
 
         def create_profile(self):
                 profile = webnotes.bean({
@@ -70,7 +70,7 @@ class DocType:
                 profile.insert()
 
         def generate_barcode(self):
-                webnotes.errprint([self.doc.naming_series])
+                # webnotes.errprint([self.doc.naming_series])
                 self.doc.patient_online_id=self.doc.name
                 from barcode.writer import ImageWriter
                 ean = barcode.get('code39',self.doc.patient_online_id,writer=ImageWriter())

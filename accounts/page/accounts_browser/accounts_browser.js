@@ -8,7 +8,7 @@
 // see ledger
 
 pscript['onload_Accounts Browser'] = function(wrapper){
-	console.log($(wrapper).html());
+	// console.log($(wrapper).html());
 	wn.ui.make_app_page({
 		parent: wrapper,
 		single_column: true

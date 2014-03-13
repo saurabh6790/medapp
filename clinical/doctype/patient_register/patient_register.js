@@ -60,7 +60,7 @@ cur_frm.cscript.refresh = function(doc, cdt, cdn){
 //                        }
 //
 //               },10);
-console.log("form refreshed ");
+// console.log("form refreshed ");
 	//if(doc.__islocal && !doc.lab_branch) {
 	// doc.lab_branch='B0001'
 	//}
@@ -86,7 +86,7 @@ function make_linking(show_key){
 
                 for (var key in a)
                 {
-                        console.log("hi")
+                        // console.log("hi")
                         $('button[data-fieldname='+key+']').css("width","200");
                         if(key==show_key)
                         {
